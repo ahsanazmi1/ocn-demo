@@ -33,21 +33,21 @@ submodules:
 	git submodule foreach 'git fetch --tags'
 	@echo "✅ Submodules initialized"
 
-# Pin all submodules to v0.2.0 tags
+# Pin all submodules to phase-2-explainability branches (includes Dockerfiles)
 pin:
-	@echo "📌 Pinning submodules to v0.2.0 tags..."
+	@echo "📌 Pinning submodules to phase-2-explainability branches..."
 	@for submodule in agents/orca agents/orion agents/weave; do \
 		if [ -d "$$submodule" ]; then \
-			echo "Pinning $$submodule to v0.2.0..."; \
+			echo "Pinning $$submodule to phase-2-explainability..."; \
 			cd "$$submodule"; \
-			git checkout v0.2.0; \
+			git checkout phase-2-explainability; \
 			cd - > /dev/null; \
 		else \
 			echo "❌ Submodule $$submodule not found. Run 'make submodules' first."; \
 			exit 1; \
 		fi; \
 	done
-	@echo "✅ All submodules pinned to v0.2.0 tags"
+	@echo "✅ All submodules pinned to phase-2-explainability branches"
 
 # Start all services
 up:
