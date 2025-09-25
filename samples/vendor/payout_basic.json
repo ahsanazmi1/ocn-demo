@@ -1,0 +1,22 @@
+{
+  "amount": 2500.00,
+  "vendor_id": "vendor_demo_001",
+  "urgency": "standard",
+  "preferred_rails": ["ach", "wire", "rtp"],
+  "max_cost": 25.00,
+  "vendor_info": {
+    "name": "Demo Vendor Corp",
+    "account_type": "business",
+    "geography": "US"
+  },
+  "constraints": {
+    "min_processing_time_hours": 1,
+    "max_processing_time_hours": 48,
+    "required_rails": ["ach"]
+  },
+  "metadata": {
+    "demo": true,
+    "trace_id": "demo_trace_orion_001",
+    "timestamp": "2025-01-25T10:05:00Z"
+  }
+}

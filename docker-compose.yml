@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  weave:
+    build: agents/weave
+    command: uvicorn weave.subscriber:app --host 0.0.0.0 --port 8082
+    ports:
+      - "8082:8082"
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+    networks:
+      - ocn-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  orca:
+    build: agents/orca
+    command: uvicorn orca.api:app --host 0.0.0.0 --port 8080
+    ports:
+      - "8080:8080"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ORCA_CE_SUBSCRIBER_URL=${ORCA_CE_SUBSCRIBER_URL:-http://weave:8082/events}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+    depends_on:
+      weave:
+        condition: service_healthy
+    networks:
+      - ocn-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  orion:
+    build: agents/orion
+    command: uvicorn orion.api:app --host 0.0.0.0 --port 8081
+    ports:
+      - "8081:8081"
+    environment:
+      - ORION_CE_SUBSCRIBER_URL=${ORION_CE_SUBSCRIBER_URL:-http://weave:8082/events}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+    depends_on:
+      weave:
+        condition: service_healthy
+    networks:
+      - ocn-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  ocn-net:
+    driver: bridge
