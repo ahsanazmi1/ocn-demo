@@ -20,12 +20,12 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
-    - name: Pin submodules to v0.2.0
+    - name: Pin submodules to phase-2-explainability (includes Dockerfiles)
       run: |
         for submodule in agents/orca agents/orion agents/weave; do
           if [ -d "$submodule" ]; then
-            echo "Pinning $submodule to v0.2.0..."
-            cd "$submodule" && git checkout v0.2.0 && cd - > /dev/null
+            echo "Pinning $submodule to phase-2-explainability..."
+            cd "$submodule" && git checkout phase-2-explainability && cd - > /dev/null
           else
             echo "❌ Submodule $submodule not found"
             exit 1
