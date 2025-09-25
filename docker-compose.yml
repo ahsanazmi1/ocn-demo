@@ -16,7 +16,7 @@ services:
 
   orca:
     build: agents/orca
-    command: uvicorn orca.api:app --host 0.0.0.0 --port 8080
+    command: uvicorn orca_api.main:app --host 0.0.0.0 --port 8080
     ports:
       - "8080:8080"
     environment:
