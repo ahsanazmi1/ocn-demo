@@ -6,9 +6,9 @@ This repository uses Git submodules to include the OCN agent repositories (Orca,
 
 ```
 agents/
-├── orca/     → ahsanazmi1/orca (v0.2.0)
-├── orion/    → ahsanazmi1/orion (v0.2.0)
-└── weave/    → ahsanazmi1/weave (v0.2.0)
+├── orca/     → ahsanazmi1/orca (phase-2-explainability)
+├── orion/    → ahsanazmi1/orion (phase-2-explainability)
+└── weave/    → ahsanazmi1/weave (phase-2-explainability)
 ```
 
 ## Quick Commands
@@ -24,13 +24,15 @@ git submodule foreach 'git fetch --tags'
 
 ### Pin to Specific Versions
 ```bash
-# Pin all submodules to v0.2.0
+# Pin all submodules to phase-2-explainability (includes Dockerfiles)
 make pin
 # or manually:
-cd agents/orca && git checkout v0.2.0 && cd ../..
-cd agents/orion && git checkout v0.2.0 && cd ../..
-cd agents/weave && git checkout v0.2.0 && cd ../..
+cd agents/orca && git checkout phase-2-explainability && cd ../..
+cd agents/orion && git checkout phase-2-explainability && cd ../..
+cd agents/weave && git checkout phase-2-explainability && cd ../..
 ```
+
+> **Note**: Currently using `phase-2-explainability` branches to include Dockerfiles for Docker Compose builds. These will be integrated into `v0.2.0` tags in future releases.
 
 ### Update Submodules
 ```bash
@@ -99,9 +101,9 @@ git submodule foreach 'git clean -fd'
 
 The demo is designed to work with specific versions of each agent:
 
-- **Orca v0.2.0**: Checkout decisions and AI explanations
-- **Orion v0.2.0**: Payout optimization and explanations
-- **Weave v0.2.0**: CloudEvents subscriber and receipt logging
+- **Orca phase-2-explainability**: Checkout decisions and AI explanations (includes Dockerfile fixes)
+- **Orion phase-2-explainability**: Payout optimization and explanations (includes Dockerfile)
+- **Weave phase-2-explainability**: CloudEvents subscriber and receipt logging (includes Dockerfile)
 
 ### Updating Versions
 
@@ -138,7 +140,7 @@ To update to newer versions:
 
 The GitHub Actions workflow automatically:
 - Initializes submodules with `submodules: true`
-- Pins to v0.2.0 tags
+- Pins to phase-2-explainability branches (includes Dockerfiles)
 - Builds and tests the complete demo
 
 This ensures that CI runs are consistent with local development.
