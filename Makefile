@@ -33,25 +33,21 @@ submodules:
 	git submodule foreach 'git fetch --tags'
 	@echo "✅ Submodules initialized"
 
-# Pin all submodules to stable versions
+# Pin all submodules to v0.2.0 tags
 pin:
-	@echo "📌 Pinning submodules to stable versions..."
+	@echo "📌 Pinning submodules to v0.2.0 tags..."
 	@for submodule in agents/orca agents/orion agents/weave; do \
 		if [ -d "$$submodule" ]; then \
-			echo "Pinning $$submodule..."; \
+			echo "Pinning $$submodule to v0.2.0..."; \
 			cd "$$submodule"; \
-			if [ "$$submodule" = "agents/orca" ]; then \
-				git checkout v0.2.0; \
-			else \
-				git checkout phase-2-explainability; \
-			fi; \
+			git checkout v0.2.0; \
 			cd - > /dev/null; \
 		else \
 			echo "❌ Submodule $$submodule not found. Run 'make submodules' first."; \
 			exit 1; \
 		fi; \
 	done
-	@echo "✅ All submodules pinned to stable versions"
+	@echo "✅ All submodules pinned to v0.2.0 tags"
 
 # Start all services
 up:
