@@ -62,8 +62,10 @@ api_call() {
         -o "$output_file" \
         -w "HTTP Status: %{http_code}\n"; then
 
-        local trace_id=$(extract_trace_id "$output_file")
-        local outcome=$(extract_outcome "$output_file")
+        local trace_id
+        local outcome
+        trace_id=$(extract_trace_id "$output_file")
+        outcome=$(extract_outcome "$output_file")
 
         echo -e "   ${GREEN}✅ Success${NC}"
         echo "   Output: $output_file"
