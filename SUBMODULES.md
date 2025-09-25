@@ -100,7 +100,7 @@ git submodule foreach 'git clean -fd'
 The demo is designed to work with specific versions of each agent:
 
 - **Orca v0.2.0**: Checkout decisions and AI explanations
-- **Orion v0.2.0**: Payout optimization and explanations  
+- **Orion v0.2.0**: Payout optimization and explanations
 - **Weave v0.2.0**: CloudEvents subscriber and receipt logging
 
 ### Updating Versions

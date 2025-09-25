@@ -9,17 +9,17 @@ on:
 jobs:
   smoke-test:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout repository with submodules
       uses: actions/checkout@v4
       with:
         submodules: true
         fetch-depth: 0
-    
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
-    
+
     - name: Pin submodules to v0.2.0
       run: |
         for submodule in agents/orca agents/orion agents/weave; do
@@ -31,18 +31,18 @@ jobs:
             exit 1
           fi
         done
-    
+
     - name: Validate sample JSON files
       run: |
         echo "🔍 Validating sample JSON files..."
-        
+
         # Check if jq is available
         if command -v jq >/dev/null 2>&1; then
           echo "✅ jq is available for JSON validation"
         else
           echo "⚠️ jq not available, using python for validation"
         fi
-        
+
         # Validate checkout sample
         if [ -f "samples/ap2/checkout_small.json" ]; then
           if command -v jq >/dev/null 2>&1; then
@@ -52,7 +52,7 @@ jobs:
             python3 -m json.tool samples/ap2/checkout_small.json > /dev/null
             echo "✅ samples/ap2/checkout_small.json is valid JSON"
           fi
-          
+
           # Check required fields
           if command -v jq >/dev/null 2>&1; then
             if jq -e '.intent.amount' samples/ap2/checkout_small.json > /dev/null; then
@@ -66,7 +66,7 @@ jobs:
           echo "❌ samples/ap2/checkout_small.json not found"
           exit 1
         fi
-        
+
         # Validate payout sample
         if [ -f "samples/vendor/payout_basic.json" ]; then
           if command -v jq >/dev/null 2>&1; then
@@ -76,7 +76,7 @@ jobs:
             python3 -m json.tool samples/vendor/payout_basic.json > /dev/null
             echo "✅ samples/vendor/payout_basic.json is valid JSON"
           fi
-          
+
           # Check required fields
           if command -v jq >/dev/null 2>&1; then
             if jq -e '.amount' samples/vendor/payout_basic.json > /dev/null; then
@@ -90,7 +90,7 @@ jobs:
           echo "❌ samples/vendor/payout_basic.json not found"
           exit 1
         fi
-    
+
     - name: Lint shell scripts
       run: |
         echo "🔍 Linting shell scripts..."
@@ -105,23 +105,23 @@ jobs:
         else
           echo "⚠️ shellcheck not available, skipping script linting"
         fi
-    
+
     - name: Build Docker images
       run: |
         echo "🐳 Building Docker images..."
         docker compose --env-file .env.example build
-        
+
         echo "✅ All images built successfully"
-        
+
         # List built images
         docker images | grep -E "(orca|orion|weave)" || echo "No OCN images found"
-    
+
     - name: Test Docker Compose configuration
       run: |
         echo "🔍 Testing Docker Compose configuration..."
         docker compose config
         echo "✅ Docker Compose configuration is valid"
-    
+
     - name: Verify Makefile targets
       run: |
         echo "🔍 Verifying Makefile targets..."

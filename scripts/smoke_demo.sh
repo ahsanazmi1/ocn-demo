@@ -51,20 +51,20 @@ api_call() {
     local url=$2
     local data_file=$3
     local output_file=$4
-    
+
     echo -e "${BLUE}📡 $name${NC}"
     echo "   URL: $url"
     echo "   Data: $data_file"
-    
+
     if curl -s "$url" \
         -H 'Content-Type: application/json' \
         --data @"$data_file" \
         -o "$output_file" \
         -w "HTTP Status: %{http_code}\n"; then
-        
+
         local trace_id=$(extract_trace_id "$output_file")
         local outcome=$(extract_outcome "$output_file")
-        
+
         echo -e "   ${GREEN}✅ Success${NC}"
         echo "   Output: $output_file"
         echo "   Trace ID: $trace_id"

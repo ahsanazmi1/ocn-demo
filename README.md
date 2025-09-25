@@ -130,7 +130,7 @@ make health        # Check service health status
 [INFO] Subject: demo_trace_orca_001
 [INFO] Receipt stored: hash_abc123...
 
-[INFO] Received CloudEvent: ocn.orion.explanation.v1  
+[INFO] Received CloudEvent: ocn.orion.explanation.v1
 [INFO] Subject: demo_trace_orion_001
 [INFO] Receipt stored: hash_def456...
 ```
@@ -222,7 +222,7 @@ make up
 
 - [SUBMODULES.md](SUBMODULES.md) - Git submodule management guide
 - [Orca Repository](https://github.com/ahsanazmi1/orca) - Checkout decision engine
-- [Orion Repository](https://github.com/ahsanazmi1/orion) - Payout optimization engine  
+- [Orion Repository](https://github.com/ahsanazmi1/orion) - Payout optimization engine
 - [Weave Repository](https://github.com/ahsanazmi1/weave) - Audit and receipt engine
 - [OCN Common](https://github.com/ahsanazmi1/ocn-common) - Shared schemas and utilities
 

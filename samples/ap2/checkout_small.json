@@ -1,33 +1,33 @@
 {
-  "intent": {
-    "amount": 125.50,
-    "currency": "USD",
-    "merchant_category_code": "5411",
-    "channel": "ecommerce"
-  },
-  "cart": {
-    "items": [
-      {
-        "description": "Office Supplies",
+    "intent": {
         "amount": 125.50,
-        "category": "office_supplies"
-      }
-    ],
-    "total_amount": 125.50
-  },
-  "actor_profile": {
-    "customer_id": "demo_customer_001",
-    "risk_tier": "medium",
-    "geography": "US"
-  },
-  "modality": {
-    "payment_method": "credit_card",
-    "device_type": "desktop",
-    "session_id": "demo_session_123"
-  },
-  "metadata": {
-    "demo": true,
-    "trace_id": "demo_trace_orca_001",
-    "timestamp": "2025-01-25T10:00:00Z"
-  }
+        "currency": "USD",
+        "merchant_category_code": "5411",
+        "channel": "ecommerce"
+    },
+    "cart": {
+        "items": [
+            {
+                "description": "Office Supplies",
+                "amount": 125.50,
+                "category": "office_supplies"
+            }
+        ],
+        "total_amount": 125.50
+    },
+    "actor_profile": {
+        "customer_id": "demo_customer_001",
+        "risk_tier": "medium",
+        "geography": "US"
+    },
+    "modality": {
+        "payment_method": "credit_card",
+        "device_type": "desktop",
+        "session_id": "demo_session_123"
+    },
+    "metadata": {
+        "demo": true,
+        "trace_id": "demo_trace_orca_001",
+        "timestamp": "2025-01-25T10:00:00Z"
+    }
 }
