@@ -1,0 +1,9 @@
+[submodule "agents/orca"]
+	path = agents/orca
+	url = https://github.com/ahsanazmi1/orca.git
+[submodule "agents/orion"]
+	path = agents/orion
+	url = https://github.com/ahsanazmi1/orion.git
+[submodule "agents/weave"]
+	path = agents/weave
+	url = https://github.com/ahsanazmi1/weave.git
