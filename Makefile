@@ -36,12 +36,21 @@ submodules:
 # Pin all submodules to stable versions
 pin:
 	@echo "📌 Pinning submodules to stable versions..."
-	@echo "Pinning agents/orca to v0.2.0..."
-	@cd agents/orca && git checkout v0.2.0 && cd - > /dev/null
-	@echo "Pinning agents/orion to phase-2-explainability..."
-	@cd agents/orion && git checkout phase-2-explainability && cd - > /dev/null
-	@echo "Pinning agents/weave to phase-2-explainability..."
-	@cd agents/weave && git checkout phase-2-explainability && cd - > /dev/null
+	@for submodule in agents/orca agents/orion agents/weave; do \
+		if [ -d "$$submodule" ]; then \
+			echo "Pinning $$submodule..."; \
+			cd "$$submodule"; \
+			if [ "$$submodule" = "agents/orca" ]; then \
+				git checkout v0.2.0; \
+			else \
+				git checkout phase-2-explainability; \
+			fi; \
+			cd - > /dev/null; \
+		else \
+			echo "❌ Submodule $$submodule not found. Run 'make submodules' first."; \
+			exit 1; \
+		fi; \
+	done
 	@echo "✅ All submodules pinned to stable versions"
 
 # Start all services
