@@ -56,21 +56,54 @@ pin:
 # Start all services
 up:
 	@echo "🚀 Starting OCN services..."
-	docker compose --env-file .env up -d --build
+	@if command -v docker-compose >/dev/null 2>&1; then \
+		docker-compose --env-file .env up -d --build; \
+	elif docker compose version >/dev/null 2>&1; then \
+		docker compose --env-file=.env up -d --build; \
+	else \
+		echo "❌ Docker Compose not found. Please install Docker Compose."; \
+		exit 1; \
+	fi
 	@echo "✅ Services started"
-	@echo "📋 Check status with: docker compose ps"
+	@echo "📋 Check status with: make status"
 	@echo "📋 View logs with: make logs"
 
 # Stop all services and remove volumes
 down:
 	@echo "🛑 Stopping OCN services..."
-	docker compose down -v
+	@if command -v docker-compose >/dev/null 2>&1; then \
+		docker-compose down -v; \
+	elif docker compose version >/dev/null 2>&1; then \
+		docker compose down -v; \
+	else \
+		echo "❌ Docker Compose not found."; \
+		exit 1; \
+	fi
 	@echo "✅ Services stopped and volumes removed"
 
 # Show logs from all services
 logs:
 	@echo "📋 Showing logs from all services..."
-	docker compose logs -f --tail=200
+	@if command -v docker-compose >/dev/null 2>&1; then \
+		docker-compose logs -f --tail=200; \
+	elif docker compose version >/dev/null 2>&1; then \
+		docker compose logs -f --tail=200; \
+	else \
+		echo "❌ Docker Compose not found."; \
+		exit 1; \
+	fi
+
+# Show service status
+status:
+	@echo "📊 Service status:"
+	@if command -v docker-compose >/dev/null 2>&1; then \
+		docker-compose ps; \
+	elif docker compose version >/dev/null 2>&1; then \
+		docker compose ps; \
+	else \
+		echo "❌ Docker Compose not found."; \
+		exit 1; \
+	fi
 
 # Run the smoke test demo
 smoke:
@@ -81,7 +114,11 @@ smoke:
 clean:
 	@echo "🧹 Cleaning up..."
 	rm -f .out_*.json
-	docker compose down -v 2>/dev/null || true
+	@if command -v docker-compose >/dev/null 2>&1; then \
+		docker-compose down -v 2>/dev/null || true; \
+	elif docker compose version >/dev/null 2>&1; then \
+		docker compose down -v 2>/dev/null || true; \
+	fi
 	docker system prune -f 2>/dev/null || true
 	@echo "✅ Cleanup complete"
 
@@ -91,7 +128,14 @@ dev-up: up
 	@echo "📋 Make changes and use 'make smoke' to test"
 
 dev-logs:
-	docker compose logs -f --tail=50 weave
+	@if command -v docker-compose >/dev/null 2>&1; then \
+		docker-compose logs -f --tail=50 weave; \
+	elif docker compose version >/dev/null 2>&1; then \
+		docker compose logs -f --tail=50 weave; \
+	else \
+		echo "❌ Docker Compose not found."; \
+		exit 1; \
+	fi
 
 dev-restart: down up
 	@echo "🔄 Services restarted"
