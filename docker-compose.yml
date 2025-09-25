@@ -19,6 +19,7 @@ services:
     command: uvicorn orca_api.main:app --host 0.0.0.0 --port 8080
     ports:
       - "8080:8080"
+      - "8501:8501"
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       - ORCA_CE_SUBSCRIBER_URL=${ORCA_CE_SUBSCRIBER_URL:-http://weave:8082/events}
