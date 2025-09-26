@@ -1,7 +1,7 @@
 # OCN Demo Makefile
 # Quick commands for running the AI explainability demo
 
-.PHONY: help submodules pin up down logs smoke clean
+.PHONY: help submodules pin up down logs smoke clean demo-shirtco demo-down
 
 # Default target
 help:
@@ -9,21 +9,30 @@ help:
 	@echo "========================="
 	@echo ""
 	@echo "Available targets:"
-	@echo "  submodules  - Initialize and update git submodules"
-	@echo "  pin         - Pin all submodules to v0.2.0 tags"
-	@echo "  up          - Start all services with Docker Compose"
-	@echo "  down        - Stop all services and remove volumes"
-	@echo "  logs        - Show logs from all services"
-	@echo "  smoke       - Run the complete demo smoke test"
-	@echo "  clean       - Clean up demo outputs and containers"
+	@echo "  submodules    - Initialize and update git submodules"
+	@echo "  pin           - Pin all submodules to v0.2.0 tags"
+	@echo "  up            - Start all services with Docker Compose"
+	@echo "  down          - Stop all services and remove volumes"
+	@echo "  logs          - Show logs from all services"
+	@echo "  smoke         - Run the complete demo smoke test"
+	@echo "  demo-shirtco  - Start ShirtCo 8-agent demo (NEW!)"
+	@echo "  demo-down     - Stop ShirtCo demo and cleanup"
+	@echo "  clean         - Clean up demo outputs and containers"
 	@echo ""
-	@echo "Quick start:"
+	@echo "Quick start (Original Demo):"
 	@echo "  1. cp .env.example .env"
 	@echo "  2. make submodules"
 	@echo "  3. make pin"
 	@echo "  4. make up"
 	@echo "  5. sleep 5"
 	@echo "  6. make smoke"
+	@echo ""
+	@echo "ShirtCo Demo (8 Agents):"
+	@echo "  1. cp .env.example .env"
+	@echo "  2. make submodules"
+	@echo "  3. make pin"
+	@echo "  4. make demo-shirtco"
+	@echo "  5. Open http://localhost:3000"
 	@echo ""
 
 # Initialize and update git submodules
@@ -136,11 +145,69 @@ dev-logs:
 dev-restart: down up
 	@echo "🔄 Services restarted"
 
+# ShirtCo Demo - 8 Agent Integration
+demo-shirtco:
+	@echo "👔 Starting ShirtCo 8-Agent Demo..."
+	@if command -v docker-compose >/dev/null 2>&1; then \
+		docker-compose --env-file .env up -d --build; \
+	elif docker compose version >/dev/null 2>&1; then \
+		docker compose --env-file=.env up -d --build; \
+	else \
+		echo "❌ Docker Compose not found. Please install Docker Compose."; \
+		exit 1; \
+	fi
+	@echo "⏳ Waiting for all services to be ready..."
+	@for port in 8080 8081 8082 8083 8084 8085 8086 8087 8090 3000; do \
+		echo "Waiting for port $$port..."; \
+		bash scripts/wait_for_port.sh localhost $$port 60; \
+	done
+	@echo "✅ ShirtCo Demo is ready!"
+	@echo ""
+	@echo "🌐 Open your browser to:"
+	@echo "   http://localhost:3000 - ShirtCo Demo UI"
+	@echo "   http://localhost:8090/docs - Gateway API"
+	@echo ""
+	@echo "📋 Agent endpoints:"
+	@echo "   🦈 Orca (8080) - Checkout & Risk"
+	@echo "   🦏 Okra (8083) - BNPL & Credit"
+	@echo "   💎 Opal (8084) - Wallet Selection"
+	@echo "   🚀 Orion (8081) - Payout Optimization"
+	@echo "   🏛️ Oasis (8085) - Treasury Planning"
+	@echo "   🖤 Onyx (8086) - KYB Verification"
+	@echo "   🫒 Olive (8087) - Loyalty Incentives"
+	@echo "   🌊 Weave (8082) - Audit & Receipts"
+	@echo ""
+	@echo "🛑 Stop with: make demo-down"
+
+# Stop ShirtCo demo
+demo-down:
+	@echo "🛑 Stopping ShirtCo Demo..."
+	@if command -v docker-compose >/dev/null 2>&1; then \
+		docker-compose down -v; \
+	elif docker compose version >/dev/null 2>&1; then \
+		docker compose down -v; \
+	else \
+		echo "❌ Docker Compose not found."; \
+		exit 1; \
+	fi
+	@echo "✅ ShirtCo Demo stopped and cleaned up"
+
 # Health checks
 health:
 	@echo "🏥 Checking service health..."
 	@for port in 8080 8081 8082; do \
 		if curl -s http://localhost:$$port/health > /dev/null 2>&1; then \
+			echo "✅ Service on port $$port is healthy"; \
+		else \
+			echo "❌ Service on port $$port is not responding"; \
+		fi; \
+	done
+
+# Health check for all ShirtCo demo services
+health-shirtco:
+	@echo "🏥 Checking ShirtCo Demo service health..."
+	@for port in 8080 8081 8082 8083 8084 8085 8086 8087 8090 3000; do \
+		if curl -s http://localhost:$$port/health > /dev/null 2>&1 || curl -s http://localhost:$$port > /dev/null 2>&1; then \
 			echo "✅ Service on port $$port is healthy"; \
 		else \
 			echo "❌ Service on port $$port is not responding"; \

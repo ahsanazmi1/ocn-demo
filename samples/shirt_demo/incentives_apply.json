@@ -1,0 +1,63 @@
+{
+    "customer_id": "acme_dev_llc",
+    "organization_name": "Acme Dev LLC",
+    "customer_tier": "Gold",
+    "transaction_context": {
+        "items_total": 5049.60,
+        "tax_amount": 404.40,
+        "grand_total": 5454.00,
+        "merchant_category": "apparel",
+        "mcc": "5651",
+        "order_type": "bulk_corporate",
+        "item_count": 60
+    },
+    "loyalty_program": {
+        "program_name": "ShirtCo Business Rewards",
+        "tier": "Gold",
+        "tier_requirements": {
+            "annual_spend": 50000.00,
+            "order_frequency": 12
+        },
+        "current_year_spend": 45000.00,
+        "order_count_ytd": 10
+    },
+    "applicable_incentives": [
+        {
+            "incentive_id": "gold_bulk_discount",
+            "type": "percentage_discount",
+            "value": 0.05,
+            "description": "Gold tier bulk order discount",
+            "applicable_amount": 5049.60,
+            "discount_amount": 252.48,
+            "conditions": [
+                "tier:Gold",
+                "amount:>5000",
+                "type:bulk_corporate"
+            ]
+        },
+        {
+            "incentive_id": "shipping_upgrade",
+            "type": "service_upgrade",
+            "value": "free_expedited",
+            "description": "Free expedited shipping for Gold tier",
+            "applicable": true,
+            "conditions": [
+                "tier:Gold",
+                "amount:>1000"
+            ]
+        }
+    ],
+    "reward_points": {
+        "base_points": 5454,
+        "tier_multiplier": 1.5,
+        "bonus_points": 2727,
+        "total_points": 8181,
+        "points_to_next_tier": 1820
+    },
+    "metadata": {
+        "demo": true,
+        "scenario": "shirtco_b2b_bulk",
+        "trace_id": "shirtco_demo_001",
+        "timestamp": "2025-01-25T10:00:00Z"
+    }
+}

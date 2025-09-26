@@ -1,0 +1,28 @@
+{
+    "amount": 5454.00,
+    "currency": "USD",
+    "term_days": 30,
+    "customer_profile": {
+        "organization_name": "Acme Dev LLC",
+        "customer_type": "business",
+        "loyalty_tier": "Gold",
+        "years_active": 6,
+        "historical_on_time_rate": 0.97,
+        "current_utilization": 0.28,
+        "credit_limit": 50000.00,
+        "available_credit": 36000.00
+    },
+    "transaction_context": {
+        "merchant_category": "apparel",
+        "mcc": "5651",
+        "order_type": "bulk_corporate",
+        "delivery_method": "standard_shipping",
+        "amount_tier": "high_value"
+    },
+    "metadata": {
+        "demo": true,
+        "scenario": "shirtco_b2b_bulk",
+        "trace_id": "shirtco_demo_001",
+        "timestamp": "2025-01-25T10:00:00Z"
+    }
+}

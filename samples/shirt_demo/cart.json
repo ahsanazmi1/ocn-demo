@@ -1,0 +1,64 @@
+{
+    "intent": {
+        "amount": 5000.00,
+        "currency": "USD",
+        "merchant_category_code": "5651",
+        "channel": "card",
+        "merchant_id": "shirtco_001",
+        "merchant_name": "ShirtCo"
+    },
+    "cart": {
+        "items": [
+            {
+                "sku": "SHIRT-OXF-BLUE-M",
+                "description": "Oxford Button-Down Shirt - Blue - Medium",
+                "quantity": 15,
+                "unit_price": 89.99,
+                "category": "apparel",
+                "subtotal": 1349.85
+            },
+            {
+                "sku": "SHIRT-TEE-BLK-L",
+                "description": "Premium Cotton T-Shirt - Black - Large",
+                "quantity": 25,
+                "unit_price": 79.99,
+                "category": "apparel",
+                "subtotal": 1999.75
+            },
+            {
+                "sku": "SHIRT-POLO-NVY-M",
+                "description": "Classic Polo Shirt - Navy - Medium",
+                "quantity": 20,
+                "unit_price": 85.00,
+                "category": "apparel",
+                "subtotal": 1700.00
+            }
+        ],
+        "subtotal": 5049.60,
+        "tax": 404.40,
+        "total_amount": 5454.00
+    },
+    "actor_profile": {
+        "customer_id": "acme_dev_llc",
+        "organization_name": "Acme Dev LLC",
+        "customer_type": "business",
+        "loyalty_tier": "Gold",
+        "geography": "US",
+        "business_category": "technology",
+        "years_active": 6
+    },
+    "modality": {
+        "payment_method": "card",
+        "device_type": "desktop",
+        "session_id": "shirtco_session_001",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+    },
+    "metadata": {
+        "demo": true,
+        "scenario": "shirtco_b2b_bulk",
+        "trace_id": "shirtco_demo_001",
+        "timestamp": "2025-01-25T10:00:00Z",
+        "order_type": "bulk_corporate",
+        "delivery_method": "standard_shipping"
+    }
+}

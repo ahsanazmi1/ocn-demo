@@ -1,0 +1,66 @@
+{
+    "opening_cash": 250000.00,
+    "currency": "USD",
+    "forecast_period_days": 14,
+    "receivables": [
+        {
+            "type": "bnpl",
+            "amount": 5454.00,
+            "due_day": 30,
+            "customer": "Acme Dev LLC",
+            "status": "pending",
+            "confidence": 0.97
+        },
+        {
+            "type": "regular_sales",
+            "amount": 12500.00,
+            "due_day": 2,
+            "customer": "Various",
+            "status": "confirmed",
+            "confidence": 0.99
+        }
+    ],
+    "payables": [
+        {
+            "vendor": "CottonSupply LLC",
+            "amount": 3200.00,
+            "due_day": 2,
+            "type": "raw_materials",
+            "status": "scheduled",
+            "priority": "high"
+        },
+        {
+            "vendor": "Logistics Pro",
+            "amount": 450.00,
+            "due_day": 5,
+            "type": "shipping",
+            "status": "scheduled",
+            "priority": "medium"
+        },
+        {
+            "vendor": "Marketing Solutions",
+            "amount": 2800.00,
+            "due_day": 12,
+            "type": "marketing",
+            "status": "scheduled",
+            "priority": "low"
+        }
+    ],
+    "operational_expenses": {
+        "daily_payroll": 8500.00,
+        "daily_overhead": 1200.00,
+        "daily_materials": 3200.00
+    },
+    "reserve_requirements": {
+        "minimum_cash": 50000.00,
+        "emergency_reserve": 25000.00,
+        "operational_reserve": 75000.00
+    },
+    "metadata": {
+        "demo": true,
+        "scenario": "shirtco_b2b_bulk",
+        "trace_id": "shirtco_demo_001",
+        "timestamp": "2025-01-25T10:00:00Z",
+        "seed": 42
+    }
+}

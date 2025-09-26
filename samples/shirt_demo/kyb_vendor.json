@@ -1,0 +1,50 @@
+{
+    "legal_name": "CottonSupply LLC",
+    "dba_name": "CottonSupply",
+    "entity_type": "LLC",
+    "jurisdiction": "US",
+    "state_of_incorporation": "Delaware",
+    "entity_age_years": 12,
+    "business_category": "manufacturing",
+    "naics_code": "313210",
+    "sanctions_flag": false,
+    "regulatory_status": "compliant",
+    "verification_data": {
+        "ein": "12-3456789",
+        "address": {
+            "street": "1234 Cotton Mill Road",
+            "city": "Atlanta",
+            "state": "GA",
+            "zip": "30309",
+            "country": "US"
+        },
+        "registration_date": "2013-03-15",
+        "last_renewal": "2024-03-15",
+        "status": "active"
+    },
+    "financial_data": {
+        "annual_revenue": 2500000.00,
+        "employee_count": 45,
+        "credit_rating": "B+",
+        "bank_references": [
+            {
+                "bank_name": "First National Bank",
+                "account_type": "business_checking",
+                "years_relationship": 8
+            }
+        ]
+    },
+    "compliance_checks": {
+        "ofac_screening": "clear",
+        "aml_verification": "passed",
+        "kyc_documents": "verified",
+        "business_license": "valid",
+        "tax_compliance": "current"
+    },
+    "metadata": {
+        "demo": true,
+        "scenario": "shirtco_b2b_bulk",
+        "trace_id": "shirtco_demo_001",
+        "timestamp": "2025-01-25T10:00:00Z"
+    }
+}

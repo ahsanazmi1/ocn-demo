@@ -91,8 +91,11 @@ make up            # Start all services with Docker Compose
 make down          # Stop all services and remove volumes
 make logs          # Show logs from all services
 make smoke         # Run the complete demo smoke test
+make demo-shirtco  # Start ShirtCo 8-agent demo (NEW!)
+make demo-down     # Stop ShirtCo demo and cleanup
 make clean         # Clean up demo outputs and containers
 make health        # Check service health status
+make health:shirtco # Check all ShirtCo demo services
 ```
 
 ## 📊 What You'll See
@@ -244,6 +247,99 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Discussions**: [GitHub Discussions](https://github.com/ahsanazmi1/ocn-demo/discussions)
 - **Documentation**: [Project Wiki](https://github.com/ahsanazmi1/ocn-demo/wiki)
 
+## 👔 ShirtCo: Mid-Market Apparel (All 8 Agents)
+
+The ShirtCo demo showcases a complete B2B transaction flow across all 8 OCN agents, demonstrating enterprise-grade fintech orchestration with deterministic outputs and comprehensive audit trails.
+
+### 🏪 Scenario Overview
+
+**Merchant**: ShirtCo (mid-market apparel retailer)
+**Customer**: Acme Dev LLC (B2B, Gold loyalty tier)
+**Order**: 3 shirt types, 60 total units, $5,454.00
+**Vendor**: CottonSupply LLC (fabric supplier)
+
+### 🚀 Quick Start
+
+```bash
+# 1. Setup (same as original demo)
+cp .env.example .env
+make submodules
+make pin
+
+# 2. Launch ShirtCo demo
+make demo-shirtco
+
+# 3. Open browser to http://localhost:3000
+# 4. Click "Run ShirtCo Demo"
+```
+
+### 📋 Agent Flow & Endpoints
+
+| Step | Agent | Endpoint | Purpose | CE Emitted |
+|------|-------|----------|---------|------------|
+| 1 | 🦈 Orca | `/decision` | Checkout risk & approval | `ocn.orca.explanation.v1` |
+| 2 | 🦏 Okra | `/bnpl/quote` | BNPL net-30 underwriting | - |
+| 3 | 💎 Opal | `/wallet/select` | Corp Visa selection | - |
+| 4 | 🚀 Orion | `/optimize` | ACH payout optimization | `ocn.orion.explanation.v1` |
+| 5 | 🏛️ Oasis | `/treasury/plan` | 14-day liquidity forecast | - |
+| 6 | 🖤 Onyx | `/kyb/verify` | CottonSupply LLC verification | `ocn.onyx.kyb_verified.v1` |
+| 7 | 🫒 Olive | `/incentives/apply` | Gold tier 5% discount | `ocn.olive.incentive_applied.v1` |
+| 8 | 🌊 Weave | `/receipts/{trace_id}` | Audit trail storage | - |
+
+### 🎯 Key Features
+
+- **Single Trace ID**: End-to-end correlation across all agents
+- **Deterministic Outputs**: Fixed seeds ensure consistent results
+- **Real-time UI**: Live status updates and CloudEvents timeline
+- **JSON Inspector**: Collapsible response details for each agent
+- **Rail Optimization**: ACH selected for cost/speed balance
+- **Loyalty Integration**: Automatic Gold tier discount application
+- **Audit Compliance**: Hash-only receipts (no PII stored)
+
+### 🌐 Demo UI Components
+
+1. **Order Summary**: Line items, totals, customer info
+2. **Agent Status Grid**: 2×4 grid showing health and results
+3. **CloudEvents Timeline**: Real-time event tracking with trace ID
+4. **JSON Inspectors**: Expandable response data for debugging
+5. **System Health**: Port monitoring and service status
+
+### 📊 Sample Transaction Flow
+
+```mermaid
+graph TD
+    A[ShirtCo Cart: $5,454] --> B[🦈 Orca: APPROVE]
+    B --> C[🦏 Okra: BNPL 30-day]
+    C --> D[💎 Opal: Corp Visa]
+    D --> E[🚀 Orion: ACH Payout]
+    E --> F[🏛️ Oasis: +$5K Liquidity]
+    F --> G[🖤 Onyx: KYB Verified]
+    G --> H[🫒 Olive: 5% Gold Discount]
+    H --> I[🌊 Weave: Receipts Stored]
+```
+
+### 🔧 Architecture
+
+```
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│ ShirtCo UI  │◄──►│   Gateway   │◄──►│   Agents    │
+│ Port: 3000  │    │ Port: 8090  │    │ 8080-8087   │
+└─────────────┘    └─────────────┘    └─────────────┘
+                           │
+                           ▼
+                   ┌─────────────┐
+                   │   Weave     │
+                   │ Port: 8082  │
+                   │ (Audit)     │
+                   └─────────────┘
+```
+
+### 🛑 Stopping the Demo
+
+```bash
+make demo-down
+```
+
 ---
 
-**Ready to see AI explainability in action?** Run `make smoke` and watch the magic happen! ✨
+**Ready to see AI explainability in action?** Run `make smoke` for the original demo or `make demo-shirtco` for the full 8-agent experience! ✨

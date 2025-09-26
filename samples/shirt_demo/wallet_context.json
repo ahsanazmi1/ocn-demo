@@ -1,0 +1,59 @@
+{
+    "customer_id": "acme_dev_llc",
+    "organization_name": "Acme Dev LLC",
+    "available_methods": [
+        {
+            "method_id": "corp_visa_001",
+            "type": "corporate_credit_card",
+            "brand": "Visa",
+            "last_four": "1234",
+            "expiry": "12/26",
+            "credit_limit": 50000.00,
+            "available_balance": 36000.00,
+            "mcc_restrictions": [
+                "5651",
+                "5411",
+                "5999"
+            ],
+            "channel_restrictions": [
+                "online",
+                "pos"
+            ],
+            "rewards_program": "cashback",
+            "rewards_rate": 0.02
+        },
+        {
+            "method_id": "ach_debit_001",
+            "type": "ach_debit",
+            "bank_name": "First National Bank",
+            "account_type": "business_checking",
+            "account_last_four": "5678",
+            "available_balance": 125000.00,
+            "daily_limit": 25000.00,
+            "mcc_restrictions": [],
+            "channel_restrictions": [
+                "online"
+            ],
+            "rewards_program": "none"
+        }
+    ],
+    "transaction_context": {
+        "amount": 5454.00,
+        "merchant_category": "apparel",
+        "mcc": "5651",
+        "channel": "online",
+        "order_type": "bulk_corporate",
+        "preferred_rewards": "cashback"
+    },
+    "selection_criteria": {
+        "primary": "mcc_compliance",
+        "secondary": "rewards_optimization",
+        "tertiary": "cost_minimization"
+    },
+    "metadata": {
+        "demo": true,
+        "scenario": "shirtco_b2b_bulk",
+        "trace_id": "shirtco_demo_001",
+        "timestamp": "2025-01-25T10:00:00Z"
+    }
+}

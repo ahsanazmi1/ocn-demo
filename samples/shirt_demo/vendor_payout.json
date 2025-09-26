@@ -1,0 +1,63 @@
+{
+    "amount": 3200.00,
+    "currency": "USD",
+    "vendor_id": "cotton-supply-llc",
+    "vendor_name": "CottonSupply LLC",
+    "urgency": "standard",
+    "preferred_rails": [
+        "ach",
+        "wire",
+        "rtp"
+    ],
+    "vendor_info": {
+        "name": "CottonSupply LLC",
+        "account_type": "business",
+        "geography": "US",
+        "domestic": true,
+        "account_number": "****7890",
+        "routing_number": "021000021"
+    },
+    "constraints": {
+        "min_processing_time_hours": 4,
+        "max_processing_time_hours": 48,
+        "required_rails": [
+            "ach"
+        ],
+        "max_cost": 50.00
+    },
+    "rail_limits": {
+        "ach": {
+            "daily_limit": 500000.00,
+            "transaction_limit": 25000.00,
+            "cost_per_transaction": 0.25
+        },
+        "wire": {
+            "daily_limit": 5000000.00,
+            "transaction_limit": 1000000.00,
+            "cost_per_transaction": 15.00
+        },
+        "rtp": {
+            "daily_limit": 100000.00,
+            "transaction_limit": 25000.00,
+            "cost_per_transaction": 0.50
+        },
+        "vcard": {
+            "daily_limit": 50000.00,
+            "transaction_limit": 10000.00,
+            "cost_per_transaction": 2.90
+        }
+    },
+    "business_context": {
+        "purchase_order": "PO-SHIRTCO-001",
+        "invoice_number": "INV-COTTON-2025-001",
+        "due_date": "2025-02-08",
+        "category": "raw_materials",
+        "description": "Cotton fabric for bulk shirt production"
+    },
+    "metadata": {
+        "demo": true,
+        "scenario": "shirtco_b2b_bulk",
+        "trace_id": "shirtco_demo_001",
+        "timestamp": "2025-01-25T10:00:00Z"
+    }
+}
