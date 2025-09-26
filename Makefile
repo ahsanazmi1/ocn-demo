@@ -1,7 +1,7 @@
 # OCN Demo Makefile
 # Quick commands for running the AI explainability demo
 
-.PHONY: help submodules pin up down logs smoke clean demo-shirtco demo-down
+.PHONY: help submodules pin up down logs smoke clean demo-shirtco demo-down demo-oxfords demo1-down
 
 # Default target
 help:
@@ -17,6 +17,8 @@ help:
 	@echo "  smoke         - Run the complete demo smoke test"
 	@echo "  demo-shirtco  - Start ShirtCo 8-agent demo (NEW!)"
 	@echo "  demo-down     - Stop ShirtCo demo and cleanup"
+	@echo "  demo-oxfords  - Start Demo 1: Oxfords Checkout (6 agents)"
+	@echo "  demo1-down    - Stop Demo 1 and cleanup"
 	@echo "  clean         - Clean up demo outputs and containers"
 	@echo ""
 	@echo "Quick start (Original Demo):"
@@ -32,6 +34,13 @@ help:
 	@echo "  2. make submodules"
 	@echo "  3. make pin"
 	@echo "  4. make demo-shirtco"
+	@echo "  5. Open http://localhost:3000"
+	@echo ""
+	@echo "Demo 1: Oxfords Checkout (6 Agents):"
+	@echo "  1. cp .env.example .env"
+	@echo "  2. make submodules"
+	@echo "  3. make pin"
+	@echo "  4. make demo-oxfords"
 	@echo "  5. Open http://localhost:3000"
 	@echo ""
 
@@ -192,6 +201,51 @@ demo-down:
 	fi
 	@echo "✅ ShirtCo Demo stopped and cleaned up"
 
+# Demo 1: Oxfords Checkout (6 agents)
+demo-oxfords:
+	@echo "🎯 Starting Demo 1: Oxfords Checkout (6 agents)..."
+	@if ! command -v docker-compose >/dev/null 2>&1 && ! docker compose version >/dev/null 2>&1; then \
+		echo "❌ Docker Compose not found. Please install Docker Compose."; \
+		exit 1; \
+	fi
+	@if command -v docker-compose >/dev/null 2>&1; then \
+		docker-compose --profile demo1-oxfords up -d --build; \
+	else \
+		docker compose --profile demo1-oxfords up -d --build; \
+	fi
+	@echo "⏳ Waiting for services to start..."
+	@for port in 8080 8082 8083 8084 8086 8087 8090 3000; do \
+		echo "Waiting for port $$port..."; \
+		timeout=60; \
+		while [ $$timeout -gt 0 ]; do \
+			if nc -z localhost $$port 2>/dev/null; then \
+				echo "✅ Port $$port is ready"; \
+				break; \
+			fi; \
+			sleep 1; \
+			timeout=$$((timeout-1)); \
+		done; \
+		if [ $$timeout -eq 0 ]; then \
+			echo "❌ Port $$port failed to start within 60 seconds"; \
+			exit 1; \
+		fi; \
+	done
+	@echo ""
+	@echo "🎉 Demo 1: Oxfords Checkout is ready!"
+	@echo "📱 Open http://localhost:3000 → click 'Run Demo 1'"
+	@echo "🔍 View logs: make logs"
+	@echo "🛑 Stop demo: make demo1-down"
+
+# Stop Demo 1 and cleanup
+demo1-down:
+	@echo "🛑 Stopping Demo 1: Oxfords Checkout..."
+	@if command -v docker-compose >/dev/null 2>&1; then \
+		docker-compose --profile demo1-oxfords down -v; \
+	else \
+		docker compose --profile demo1-oxfords down -v; \
+	fi
+	@echo "✅ Demo 1 stopped and cleaned up"
+
 # Health checks
 health:
 	@echo "🏥 Checking service health..."
@@ -207,6 +261,17 @@ health:
 health-shirtco:
 	@echo "🏥 Checking ShirtCo Demo service health..."
 	@for port in 8080 8081 8082 8083 8084 8085 8086 8087 8090 3000; do \
+		if curl -s http://localhost:$$port/health > /dev/null 2>&1 || curl -s http://localhost:$$port > /dev/null 2>&1; then \
+			echo "✅ Service on port $$port is healthy"; \
+		else \
+			echo "❌ Service on port $$port is not responding"; \
+		fi; \
+	done
+
+# Health check for Demo 1 Oxfords services
+health-oxfords:
+	@echo "🏥 Checking Demo 1 Oxfords service health..."
+	@for port in 8080 8082 8083 8084 8086 8087 8090 3000; do \
 		if curl -s http://localhost:$$port/health > /dev/null 2>&1 || curl -s http://localhost:$$port > /dev/null 2>&1; then \
 			echo "✅ Service on port $$port is healthy"; \
 		else \

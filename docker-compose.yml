@@ -198,6 +198,60 @@ services:
       timeout: 10s
       retries: 3
 
+  # Demo 1 Oxfords Profile
+  demo1-gateway:
+    build: gateway
+    command: uvicorn app:app --host 0.0.0.0 --port 8090
+    ports:
+      - "8090:8090"
+    environment:
+      - ORCA_URL=http://orca:8080
+      - OKRA_URL=http://okra:8083
+      - OPAL_URL=http://opal:8084
+      - ONYX_URL=http://onyx:8086
+      - OLIVE_URL=http://olive:8087
+      - WEAVE_URL=http://weave:8082
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+    depends_on:
+      - orca
+      - okra
+      - opal
+      - onyx
+      - olive
+      - weave
+    networks:
+      - ocn-net
+    volumes:
+      - ./samples:/app/samples:ro
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8090/" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    profiles:
+      - demo1-oxfords
+
+  # Demo 1 Oxfords UI
+  demo1-ui:
+    build: ui
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_GATEWAY_URL=http://localhost:8090
+      - NODE_ENV=production
+    depends_on:
+      demo1-gateway:
+        condition: service_healthy
+    networks:
+      - ocn-net
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    profiles:
+      - demo1-oxfords
+
 networks:
   ocn-net:
     driver: bridge

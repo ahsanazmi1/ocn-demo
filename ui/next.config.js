@@ -1,19 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: true,
-    swcMinify: true,
-    output: 'standalone',
-    env: {
-        GATEWAY_URL: process.env.GATEWAY_URL || 'http://localhost:8090',
+  reactStrictMode: true,
+  swcMinify: true,
+  rewrites: async () => [
+    {
+      source: '/api/:path*',
+      destination: 'http://gateway:8090/:path*',
     },
-    async rewrites() {
-        return [
-            {
-                source: '/api/:path*',
-                destination: `${process.env.GATEWAY_URL || 'http://localhost:8090'}/:path*`,
-            },
-        ]
-    },
+  ],
 }
 
 module.exports = nextConfig

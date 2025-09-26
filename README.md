@@ -342,4 +342,94 @@ make demo-down
 
 ---
 
-**Ready to see AI explainability in action?** Run `make smoke` for the original demo or `make demo-shirtco` for the full 8-agent experience! ✨
+## 🎯 Demo 1 — Oxfords Checkout (Phases 0–2)
+
+The Oxfords Checkout demo showcases a streamlined 6-agent flow demonstrating core OCN functionality with deterministic outputs and comprehensive audit trails.
+
+### 🏪 Scenario Overview
+
+**Merchant**: Example LLC (B2B apparel)
+**Customer**: Corporate buyer
+**Order**: Oxfords (Brown 10D) + Blazer (Navy 40R) = $700.00
+**Payment**: Card channel, MCC 5651 (Apparel)
+
+### 🚀 Quick Start
+
+```bash
+# 1. Setup (same as other demos)
+cp .env.example .env
+make submodules
+make pin
+
+# 2. Launch Demo 1
+make demo-oxfords
+
+# 3. Open http://localhost:3000 → click "Run Demo 1"
+```
+
+### 📋 Agent Flow
+
+| Step | Agent | Endpoint | Purpose | CE Emitted |
+|------|-------|----------|---------|------------|
+| 1 | 🦈 Orca | `/decide` | Checkout decision | - |
+| 2 | 🦈 Orca | `/explain?emit_ce=true` | Explanation with CE | `ocn.orca.explanation.v1` |
+| 3 | 💎 Opal | `/wallet/methods` → `/wallet/select` | Corp Visa selection | - |
+| 4 | 🫒 Olive | `/incentives/apply` | Gold tier 5% rebate | - |
+| 5 | 🦏 Okra | `/bnpl/quote` | 30-day BNPL quote | - |
+| 6 | 🖤 Onyx | `/kyb/verify?emit_ce=true` | Vendor verification | `ocn.onyx.kyb_verified.v1` |
+
+### 🎯 Key Features
+
+- **Single Trace ID**: End-to-end correlation across all 6 agents
+- **Deterministic Outputs**: Fixed samples ensure consistent results
+- **CloudEvents Integration**: Orca explanations and Onyx KYB verification
+- **Real-time UI**: Live agent status and event timeline
+- **JSON Inspectors**: Collapsible response details for debugging
+- **No PII**: All samples use synthetic data
+
+### 🌐 Demo UI Components
+
+1. **Order Summary**: Line items, totals, customer info
+2. **Agent Status Grid**: 2×3 grid showing health and results
+3. **Event Timeline**: Real-time tracking with trace ID
+4. **JSON Inspectors**: Expandable response data
+5. **System Health**: Port monitoring and service status
+
+### 📊 Sample Transaction Flow
+
+```mermaid
+graph TD
+    A[Oxfords + Blazer: $700] --> B[🦈 Orca: APPROVE]
+    B --> C[🦈 Orca: Explanation CE]
+    C --> D[💎 Opal: Corp Visa]
+    D --> E[🫒 Olive: 5% Gold Rebate]
+    E --> F[🦏 Okra: BNPL 30-day]
+    F --> G[🖤 Onyx: KYB CE]
+    G --> H[🌊 Weave: Receipts Logged]
+```
+
+### 🔧 Architecture
+
+```
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│ Demo 1 UI   │◄──►│   Gateway   │◄──►│   Agents    │
+│ Port: 3000  │    │ Port: 8090  │    │ 8080-8087   │
+└─────────────┘    └─────────────┘    └─────────────┘
+                           │
+                           ▼
+                   ┌─────────────┐
+                   │   Weave     │
+                   │ Port: 8082  │
+                   │ (Audit)     │
+                   └─────────────┘
+```
+
+### 🛑 Stopping the Demo
+
+```bash
+make demo1-down
+```
+
+---
+
+**Ready to see AI explainability in action?** Run `make smoke` for the original demo, `make demo-shirtco` for the full 8-agent experience, or `make demo-oxfords` for the streamlined 6-agent flow! ✨
