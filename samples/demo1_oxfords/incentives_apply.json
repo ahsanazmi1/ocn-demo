@@ -1,1 +1,6 @@
-{"program": "merchant-loyalty", "cart_total": 700.0, "tier": "Gold", "rebate_pct": 0.05}
+{
+    "program": "merchant-loyalty",
+    "cart_total": 700.0,
+    "tier": "Gold",
+    "rebate_pct": 0.05
+}

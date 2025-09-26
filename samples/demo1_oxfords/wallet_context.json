@@ -1,5 +1,9 @@
 {
-  "methods": ["corp_visa", "debit_ach", "bnpl"],
-  "rewards_pref": "cashback",
-  "mcc": 5651
+    "methods": [
+        "corp_visa",
+        "debit_ach",
+        "bnpl"
+    ],
+    "rewards_pref": "cashback",
+    "mcc": 5651
 }

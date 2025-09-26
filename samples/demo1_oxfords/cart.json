@@ -1,15 +1,30 @@
 {
-  "intent": "checkout",
-  "cart": {
-    "currency": "USD",
-    "items": [
-      {"sku": "OXFORDS-BRN-10D", "name": "Oxfords (Brown 10D)", "qty": 1, "unit_price": 280.0},
-      {"sku": "BLAZER-NVY-40R", "name": "Blazer (Navy 40R)", "qty": 1, "unit_price": 420.0}
-    ],
-    "total": 700.0
-  },
-  "payment": {"channel": "card", "mcc": 5651},
-  "modality": "web",
-  "agent_presence": "human",
-  "actor_profile": {"org_name": "Example LLC"}
+    "intent": "checkout",
+    "cart": {
+        "currency": "USD",
+        "items": [
+            {
+                "sku": "OXFORDS-BRN-10D",
+                "name": "Oxfords (Brown 10D)",
+                "qty": 1,
+                "unit_price": 280.0
+            },
+            {
+                "sku": "BLAZER-NVY-40R",
+                "name": "Blazer (Navy 40R)",
+                "qty": 1,
+                "unit_price": 420.0
+            }
+        ],
+        "total": 700.0
+    },
+    "payment": {
+        "channel": "card",
+        "mcc": 5651
+    },
+    "modality": "web",
+    "agent_presence": "human",
+    "actor_profile": {
+        "org_name": "Example LLC"
+    }
 }

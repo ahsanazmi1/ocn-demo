@@ -178,6 +178,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    profiles:
+      - shirtco
 
   # ShirtCo Demo UI
   ui:
@@ -197,6 +199,8 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    profiles:
+      - shirtco
 
   # Demo 1 Oxfords Profile
   demo1-gateway:
@@ -224,7 +228,7 @@ services:
     volumes:
       - ./samples:/app/samples:ro
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8090/" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8090/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
