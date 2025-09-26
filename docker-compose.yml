@@ -27,6 +27,7 @@ services:
       - AZURE_OPENAI_API_KEY=${AZURE_OPENAI_API_KEY:-}
       - AZURE_OPENAI_ENDPOINT=${AZURE_OPENAI_ENDPOINT:-}
       - AZURE_OPENAI_DEPLOYMENT=${AZURE_OPENAI_DEPLOYMENT:-gpt-4o-mini}
+      - ORCA_MODEL_DIR=${ORCA_MODEL_DIR:-/app/models}
       - ORCA_CE_SUBSCRIBER_URL=${ORCA_CE_SUBSCRIBER_URL:-http://weave:8082/events}
       - LOG_LEVEL=${LOG_LEVEL:-info}
     depends_on:
