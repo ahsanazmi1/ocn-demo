@@ -20,6 +20,8 @@ services:
     ports:
       - "8080:8080"
       - "8501:8501"
+      - "8502:8502"
+      - "8083:8083"
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       - ORCA_CE_SUBSCRIBER_URL=${ORCA_CE_SUBSCRIBER_URL:-http://weave:8082/events}
