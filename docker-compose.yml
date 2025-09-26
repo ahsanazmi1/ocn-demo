@@ -24,6 +24,9 @@ services:
       - "8083:8083"
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - AZURE_OPENAI_API_KEY=${AZURE_OPENAI_API_KEY:-}
+      - AZURE_OPENAI_ENDPOINT=${AZURE_OPENAI_ENDPOINT:-}
+      - AZURE_OPENAI_DEPLOYMENT=${AZURE_OPENAI_DEPLOYMENT:-gpt-4o-mini}
       - ORCA_CE_SUBSCRIBER_URL=${ORCA_CE_SUBSCRIBER_URL:-http://weave:8082/events}
       - LOG_LEVEL=${LOG_LEVEL:-info}
     depends_on:
