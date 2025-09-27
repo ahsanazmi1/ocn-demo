@@ -430,6 +430,16 @@ graph TD
 make demo1-down
 ```
 
+## Phase 3 — Negotiation & Live Fee Bidding
+
+Demo Steps 4–6 in the UI timeline.
+
+### Phase 3 — Negotiation & Live Fee Bidding
+- [ ] Step 4: Orca vs Opal negotiation (both explanations visible)
+- [ ] Step 5: Weave orchestrates processor bidding (timeline shows bids)
+- [ ] Step 6: Agents settle cost vs rewards vs loyalty
+- [ ] UI timeline renders negotiation + bidding events
+
 ---
 
 **Ready to see AI explainability in action?** Run `make smoke` for the original demo, `make demo-shirtco` for the full 8-agent experience, or `make demo-oxfords` for the streamlined 6-agent flow! ✨
