@@ -96,134 +96,125 @@ async def run_demo1():
             # Step 2: Call Orca /explain with CE emission
             print(f"🦈 Step 2: Orca explanation with CE emission for trace {trace_id}")
             explain_headers = with_trace({}, trace_id)
-            explain_response = await http_client.post(
-                f"{AGENT_URLS['orca']}/explain?emit_ce=true",
-                json=decision_request,
-                headers=explain_headers
-            )
+            
+            # Send the decision response to the explain endpoint
+            if "decision" in results["orca"]:
+                explain_request = {"decision": results["orca"]["decision"]}
+                explain_response = await http_client.post(
+                    f"{AGENT_URLS['orca']}/explain?emit_ce=true",
+                    json=explain_request,
+                    headers=explain_headers
+                )
+            else:
+                explain_response = None
 
-            if explain_response.status_code == 200:
+            if explain_response and explain_response.status_code == 200:
                 results["orca"]["explanation"] = explain_response.json()
             else:
-                results["orca"]["explanation_error"] = f"Explanation failed: {explain_response.status_code}"
+                results["orca"]["explanation_error"] = f"Explanation failed: {explain_response.status_code if explain_response else 'No decision available'}"
 
-            # Step 3: Opal wallet decision (using generic /decision endpoint)
-            print(f"💎 Step 3: Opal wallet decision for trace {trace_id}")
+            # Step 3: Opal wallet methods and selection
+            print(f"💎 Step 3: Opal wallet methods and selection for trace {trace_id}")
 
-            # Load wallet context and transform to DecisionRequest format
-            with open(f"{samples_dir}/wallet_context.json", "r") as f:
-                wallet_context = json.load(f)
-
-            # Transform wallet context to DecisionRequest format
-            opal_request = {
-                "cart_total": cart_data["cart"]["total"],
-                "currency": cart_data["cart"]["currency"],
-                "rail": "Card",
-                "channel": "online",
-                "context": {
-                    "wallet_context": wallet_context,
-                    "mcc": cart_data["payment"]["mcc"]
-                }
-            }
-
+            # Get wallet methods
             opal_headers = with_trace({}, trace_id)
-            opal_response = await http_client.post(
-                f"{AGENT_URLS['opal']}/decision",
-                json=opal_request,
+            methods_response = await http_client.get(
+                f"{AGENT_URLS['opal']}/wallet/methods?actor_id=demo_actor",
                 headers=opal_headers
             )
 
-            if opal_response.status_code == 200:
-                results["opal"]["decision"] = opal_response.json()
+            if methods_response.status_code == 200:
+                methods_data = methods_response.json()
+                results["opal"]["methods"] = methods_data
+
+                # Load wallet context and select method
+                with open(f"{samples_dir}/wallet_context.json", "r") as f:
+                    wallet_context = json.load(f)
+
+                # Add selected method to context
+                if methods_data and len(methods_data) > 0:
+                    selected_method = methods_data[0]["method_id"]  # Select first available method
+                    wallet_context["selected_method"] = selected_method
+
+                select_response = await http_client.post(
+                    f"{AGENT_URLS['opal']}/wallet/select",
+                    json=wallet_context,
+                    headers=opal_headers
+                )
+
+                if select_response.status_code == 200:
+                    results["opal"]["selection"] = select_response.json()
+                else:
+                    results["opal"]["selection_error"] = f"Selection failed: {select_response.status_code}"
             else:
-                results["opal"]["error"] = f"Decision failed: {opal_response.status_code}"
+                results["opal"]["error"] = f"Methods failed: {methods_response.status_code}"
 
-            # Step 4: Olive incentives decision
-            print(f"🫒 Step 4: Olive incentives decision for trace {trace_id}")
-            with open(f"{samples_dir}/incentives_apply.json", "r") as f:
-                incentives_data = json.load(f)
-
-            # Transform incentives data to DecisionRequest format
-            olive_request = {
-                "cart_total": cart_data["cart"]["total"],
-                "currency": cart_data["cart"]["currency"],
-                "rail": "Card",
-                "channel": "online",
-                "context": {
-                    "incentives_data": incentives_data,
-                    "mcc": cart_data["payment"]["mcc"]
-                }
-            }
+            # Step 4: Olive incentives via MCP
+            print(f"🫒 Step 4: Olive incentives for trace {trace_id}")
 
             olive_headers = with_trace({}, trace_id)
-            olive_response = await http_client.post(
-                f"{AGENT_URLS['olive']}/decision",
-                json=olive_request,
+            
+            # Call Olive health first
+            health_response = await http_client.get(
+                f"{AGENT_URLS['olive']}/health",
                 headers=olive_headers
             )
 
-            if olive_response.status_code == 200:
-                results["olive"]["decision"] = olive_response.json()
-            else:
-                results["olive"]["error"] = f"Decision failed: {olive_response.status_code}"
+            if health_response.status_code == 200:
+                results["olive"]["health"] = health_response.json()
+                
+                # Call Olive incentives via MCP
+                incentives_request = {
+                    "verb": "listIncentives",
+                    "args": {}
+                }
+                
+                incentives_response = await http_client.post(
+                    f"{AGENT_URLS['olive']}/mcp/invoke",
+                    json=incentives_request,
+                    headers=olive_headers
+                )
 
-            # Step 5: Okra BNPL decision
-            print(f"🦏 Step 5: Okra BNPL decision for trace {trace_id}")
+                if incentives_response.status_code == 200:
+                    results["olive"]["incentives"] = incentives_response.json()
+                else:
+                    results["olive"]["incentives_error"] = f"Incentives failed: {incentives_response.status_code}"
+            else:
+                results["olive"]["error"] = f"Health check failed: {health_response.status_code}"
+
+            # Step 5: Okra BNPL quote
+            print(f"🦏 Step 5: Okra BNPL quote for trace {trace_id}")
             with open(f"{samples_dir}/bnpl_request.json", "r") as f:
                 bnpl_data = json.load(f)
 
-            # Transform BNPL data to DecisionRequest format
-            okra_request = {
-                "cart_total": cart_data["cart"]["total"],
-                "currency": cart_data["cart"]["currency"],
-                "rail": "Card",
-                "channel": "online",
-                "context": {
-                    "bnpl_data": bnpl_data,
-                    "mcc": cart_data["payment"]["mcc"]
-                }
-            }
-
             okra_headers = with_trace({}, trace_id)
             okra_response = await http_client.post(
-                f"{AGENT_URLS['okra']}/decision",
-                json=okra_request,
+                f"{AGENT_URLS['okra']}/bnpl/quote?emit_ce=true",
+                json=bnpl_data,
                 headers=okra_headers
             )
 
             if okra_response.status_code == 200:
-                results["okra"]["decision"] = okra_response.json()
+                results["okra"]["bnpl_quote"] = okra_response.json()
             else:
-                results["okra"]["error"] = f"Decision failed: {okra_response.status_code}"
+                results["okra"]["error"] = f"BNPL quote failed: {okra_response.status_code}"
 
-            # Step 6: Onyx KYB decision
-            print(f"🖤 Step 6: Onyx KYB decision for trace {trace_id}")
+            # Step 6: Onyx KYB verification
+            print(f"🖤 Step 6: Onyx KYB verification for trace {trace_id}")
             with open(f"{samples_dir}/kyb_vendor.json", "r") as f:
                 kyb_data = json.load(f)
 
-            # Transform KYB data to DecisionRequest format
-            onyx_request = {
-                "cart_total": cart_data["cart"]["total"],
-                "currency": cart_data["cart"]["currency"],
-                "rail": "Card",
-                "channel": "online",
-                "context": {
-                    "kyb_data": kyb_data,
-                    "mcc": cart_data["payment"]["mcc"]
-                }
-            }
-
             onyx_headers = with_trace({}, trace_id)
             onyx_response = await http_client.post(
-                f"{AGENT_URLS['onyx']}/decision",
-                json=onyx_request,
+                f"{AGENT_URLS['onyx']}/kyb/verify",
+                json=kyb_data,
                 headers=onyx_headers
             )
 
             if onyx_response.status_code == 200:
-                results["onyx"]["decision"] = onyx_response.json()
+                results["onyx"]["kyb_verification"] = onyx_response.json()
             else:
-                results["onyx"]["error"] = f"Decision failed: {onyx_response.status_code}"
+                results["onyx"]["error"] = f"KYB verification failed: {onyx_response.status_code}"
 
         except Exception as e:
             print(f"❌ Demo 1 error: {str(e)}")

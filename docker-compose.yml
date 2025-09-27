@@ -58,16 +58,13 @@ services:
       timeout: 5s
       retries: 5
 
-  # Additional OCN Agents (Mock implementations for demo)
+  # Additional OCN Agents
   okra:
-    build: agents/orca # Reuse Orca build for now
-    command: uvicorn orca_api.main:app --host 0.0.0.0 --port 8083
+    build: agents/okra
     ports:
       - "8083:8083"
     environment:
       - LOG_LEVEL=${LOG_LEVEL:-info}
-      - DEMO_MODE=true
-      - AGENT_TYPE=okra
     networks:
       - ocn-net
     healthcheck:
@@ -77,14 +74,11 @@ services:
       retries: 5
 
   opal:
-    build: agents/orca # Reuse Orca build for now
-    command: uvicorn orca_api.main:app --host 0.0.0.0 --port 8084
+    build: agents/opal
     ports:
       - "8084:8084"
     environment:
       - LOG_LEVEL=${LOG_LEVEL:-info}
-      - DEMO_MODE=true
-      - AGENT_TYPE=opal
     networks:
       - ocn-net
     healthcheck:
@@ -94,14 +88,11 @@ services:
       retries: 5
 
   oasis:
-    build: agents/orca # Reuse Orca build for now
-    command: uvicorn orca_api.main:app --host 0.0.0.0 --port 8085
+    build: agents/oasis
     ports:
       - "8085:8085"
     environment:
       - LOG_LEVEL=${LOG_LEVEL:-info}
-      - DEMO_MODE=true
-      - AGENT_TYPE=oasis
     networks:
       - ocn-net
     healthcheck:
@@ -111,14 +102,11 @@ services:
       retries: 5
 
   onyx:
-    build: agents/orca # Reuse Orca build for now
-    command: uvicorn orca_api.main:app --host 0.0.0.0 --port 8086
+    build: agents/onyx
     ports:
       - "8086:8086"
     environment:
       - LOG_LEVEL=${LOG_LEVEL:-info}
-      - DEMO_MODE=true
-      - AGENT_TYPE=onyx
     networks:
       - ocn-net
     healthcheck:
@@ -128,14 +116,11 @@ services:
       retries: 5
 
   olive:
-    build: agents/orca # Reuse Orca build for now
-    command: uvicorn orca_api.main:app --host 0.0.0.0 --port 8087
+    build: agents/olive
     ports:
       - "8087:8087"
     environment:
       - LOG_LEVEL=${LOG_LEVEL:-info}
-      - DEMO_MODE=true
-      - AGENT_TYPE=olive
     networks:
       - ocn-net
     healthcheck:

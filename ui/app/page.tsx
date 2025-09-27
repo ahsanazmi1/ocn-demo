@@ -63,15 +63,15 @@ export default function Home() {
         }
     };
 
-  // Generate timeline events
-  const timelineEvents = demoResult ? [
-    { step: 1, agent: "Orca", emoji: "🦈", action: "Checkout decision", status: (demoResult.orca.decision ? 'completed' : 'error') as 'completed' | 'error' },
-    { step: 2, agent: "Orca", emoji: "🦈", action: "Explanation CE emitted", status: (demoResult.orca.explanation ? 'completed' : 'error') as 'completed' | 'error' },
-    { step: 3, agent: "Opal", emoji: "💎", action: "Wallet method selected", status: (demoResult.opal.selection ? 'completed' : 'error') as 'completed' | 'error' },
-    { step: 4, agent: "Olive", emoji: "🫒", action: "Loyalty incentives applied", status: (demoResult.olive.incentives ? 'completed' : 'error') as 'completed' | 'error' },
-    { step: 5, agent: "Okra", emoji: "🦏", action: "BNPL quote generated", status: (demoResult.okra.bnpl_quote ? 'completed' : 'error') as 'completed' | 'error' },
-    { step: 6, agent: "Onyx", emoji: "🖤", action: "KYB verification CE emitted", status: (demoResult.onyx.kyb_verification ? 'completed' : 'error') as 'completed' | 'error' }
-  ] : [];
+    // Generate timeline events
+    const timelineEvents = demoResult ? [
+        { step: 1, agent: "Orca", emoji: "🦈", action: "Checkout decision", status: (demoResult.orca.decision ? 'completed' : 'error') as 'completed' | 'error' },
+        { step: 2, agent: "Orca", emoji: "🦈", action: "Explanation CE emitted", status: (demoResult.orca.explanation ? 'completed' : 'error') as 'completed' | 'error' },
+        { step: 3, agent: "Opal", emoji: "💎", action: "Wallet method selected", status: (demoResult.opal.selection ? 'completed' : 'error') as 'completed' | 'error' },
+        { step: 4, agent: "Olive", emoji: "🫒", action: "Loyalty incentives applied", status: (demoResult.olive.incentives ? 'completed' : 'error') as 'completed' | 'error' },
+        { step: 5, agent: "Okra", emoji: "🦏", action: "BNPL quote generated", status: (demoResult.okra.bnpl_quote ? 'completed' : 'error') as 'completed' | 'error' },
+        { step: 6, agent: "Onyx", emoji: "🖤", action: "KYB verification CE emitted", status: (demoResult.onyx.kyb_verification ? 'completed' : 'error') as 'completed' | 'error' }
+    ] : [];
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -94,8 +94,8 @@ export default function Home() {
                         onClick={handleRunDemo}
                         disabled={isRunning}
                         className={`px-6 py-3 rounded-lg font-medium text-white ${isRunning
-                                ? 'bg-gray-400 cursor-not-allowed'
-                                : 'bg-blue-600 hover:bg-blue-700'
+                            ? 'bg-gray-400 cursor-not-allowed'
+                            : 'bg-blue-600 hover:bg-blue-700'
                             }`}
                     >
                         {isRunning ? 'Running Demo 1...' : 'Run Demo 1'}

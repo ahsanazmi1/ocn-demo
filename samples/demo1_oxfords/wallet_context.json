@@ -1,9 +1,10 @@
 {
-    "methods": [
-        "corp_visa",
-        "debit_ach",
-        "bnpl"
-    ],
-    "rewards_pref": "cashback",
-    "mcc": 5651
+    "actor_id": "demo_actor",
+    "payment_method_id": "pm_demo_actor_visa_001",
+    "amount": 700.0,
+    "currency": "USD",
+    "mcc": "5651",
+    "channel": "online",
+    "merchant_id": "demo_merchant"
 }
+

@@ -7,3 +7,18 @@
 [submodule "agents/weave"]
 	path = agents/weave
 	url = https://github.com/ahsanazmi1/weave.git
+[submodule "agents/okra"]
+	path = agents/okra
+	url = https://github.com/ahsanazmi1/okra.git
+[submodule "agents/opal"]
+	path = agents/opal
+	url = https://github.com/ahsanazmi1/opal.git
+[submodule "agents/oasis"]
+	path = agents/oasis
+	url = https://github.com/ahsanazmi1/oasis.git
+[submodule "agents/onyx"]
+	path = agents/onyx
+	url = https://github.com/ahsanazmi1/onyx.git
+[submodule "agents/olive"]
+	path = agents/olive
+	url = https://github.com/ahsanazmi1/olive.git

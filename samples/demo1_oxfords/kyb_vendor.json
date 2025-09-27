@@ -1,6 +1,11 @@
 {
-    "legal_name": "Example Supplier LLC",
+    "entity_id": "example_supplier_001",
+    "business_name": "Example Supplier LLC",
     "jurisdiction": "US",
-    "entity_age_years": 10,
-    "sanctions_flag": false
+    "entity_age_days": 3650,
+    "registration_status": "active",
+    "sanctions_flags": [],
+    "business_type": "corporation",
+    "registration_number": "12345678"
 }
+

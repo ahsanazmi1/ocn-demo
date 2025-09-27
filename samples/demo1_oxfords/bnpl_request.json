@@ -1,7 +1,7 @@
 {
     "amount": 700.0,
-    "term_days": 30,
+    "tenor": 1,
     "on_time_rate": 0.97,
-    "utilization": 0.22,
-    "company_age_years": 5
+    "utilization": 0.22
 }
+
