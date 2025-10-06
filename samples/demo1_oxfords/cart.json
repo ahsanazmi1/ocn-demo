@@ -4,19 +4,19 @@
         "currency": "USD",
         "items": [
             {
-                "sku": "OXFORDS-BRN-10D",
-                "name": "Oxfords (Brown 10D)",
-                "qty": 1,
-                "unit_price": 280.0
+                "sku": "OXFORD-SLIM-CREW-M",
+                "name": "Slim-Fit Crew Oxford (M)",
+                "qty": 2,
+                "unit_price": 120.0
             },
             {
-                "sku": "BLAZER-NVY-40R",
-                "name": "Blazer (Navy 40R)",
+                "sku": "BLAZER-NAVY-40R",
+                "name": "Navy Blazer",
                 "qty": 1,
-                "unit_price": 420.0
+                "unit_price": 140.0
             }
         ],
-        "total": 700.0
+        "total": 410.40
     },
     "payment": {
         "channel": "card",
@@ -28,4 +28,3 @@
         "org_name": "Example LLC"
     }
 }
-

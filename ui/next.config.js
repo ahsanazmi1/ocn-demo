@@ -2,12 +2,12 @@
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
-    rewrites: async () => [
-        {
-            source: '/api/:path*',
-            destination: 'http://gateway:8090/:path*',
-        },
-    ],
+    // rewrites: async () => [
+    //     {
+    //         source: '/api/gateway/:path*',
+    //         destination: 'http://demo1-gateway:8090/:path*',
+    //     },
+    // ],
 }
 
 module.exports = nextConfig

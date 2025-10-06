@@ -1,0 +1,7 @@
+# OCN Plugin Adapters Requirements
+
+# HTTP requests
+requests>=2.31.0
+
+# Type hints
+typing-extensions>=4.0.0
