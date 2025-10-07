@@ -41,7 +41,7 @@ echo -e "${YELLOW}Calling Orca negotiation...${NC}"
 ORCA_NEGOTIATION_RESPONSE=$(curl -s -X POST "${GATEWAY_URL}/run/demo1" \
     -H "Content-Type: application/json" \
     -d '{
-        "trace_id": "'${TRACE_ID}'",
+        "trace_id": "'"${TRACE_ID}"'",
         "cart_summary": {
             "total_amount": 700.0,
             "currency": "USD",
@@ -70,7 +70,7 @@ ORCA_NEGOTIATION_RESPONSE=$(curl -s -X POST "${GATEWAY_URL}/run/demo1" \
                 "risk_score": 0.1
             }
         ],
-        "deterministic_seed": '${DETERMINISTIC_SEED}'
+        "deterministic_seed": '"${DETERMINISTIC_SEED}"'
     }')
 
 if echo "$ORCA_NEGOTIATION_RESPONSE" | jq -e '.phase3.negotiation.orca' > /dev/null; then
