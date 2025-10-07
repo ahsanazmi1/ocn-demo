@@ -1,28 +1,67 @@
-# OCN AI Explainability Demo
+# OCN AI Explainability Demo + Phase 4
 
 [![CI Smoke Tests](https://github.com/ahsanazmi1/ocn-demo/workflows/OCN%20Demo%20Smoke%20Tests/badge.svg)](https://github.com/ahsanazmi1/ocn-demo/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A comprehensive demonstration of AI-powered explainability across the Open Checkout Network (OCN), showcasing deterministic decision engines, CloudEvents integration, and transparent reasoning.
+## Phase 4 — Payment Instruction & Visibility
+
+🚧 **Currently in development** - Phase 4 focuses on payment instruction generation, settlement visibility, and comprehensive payment tracking across OCN agents.
+
+- **Status**: Active development on `phase-4-instruction` branch
+- **Features**: Payment instruction schemas, settlement visibility, payment tracking, instruction validation
+- **Issue Tracker**: [Phase 4 Issues](https://github.com/ahsanazmi1/ocn-demo/issues?q=is%3Aopen+is%3Aissue+label%3Aphase-4)
+- **Timeline**: Weeks 12-16 of OCN development roadmap
+
+See [CHANGELOG.md](CHANGELOG.md) for detailed Phase 4 progress and features.
+
+A comprehensive demonstration of AI-powered explainability and **Phase 4 — Payment Instruction & Visibility** across the Open Checkout Network (OCN), showcasing deterministic decision engines, CloudEvents integration, transparent reasoning, and comprehensive payment tracking capabilities.
 
 ## 🎯 What This Demo Shows
 
-This demo demonstrates the complete AI explainability pipeline:
+This demo demonstrates the complete AI explainability pipeline plus **Phase 3 — Negotiation & Live Fee Bidding**:
 
+### Core Agents (Steps 1-6)
 1. **Orca** (Checkout Decision Engine)
    - Makes deterministic checkout decisions (approve/decline/review)
    - Generates AI-powered explanations with reasoning, signals, and confidence
    - Emits CloudEvents (`ocn.orca.explanation.v1`) with trace IDs
 
-2. **Orion** (Payout Optimization Engine)
-   - Optimizes vendor payouts across payment rails (ACH, Wire, RTP, V-Card)
-   - Provides deterministic scoring with cost, speed, and limit considerations
-   - Emits CloudEvents (`ocn.orion.explanation.v1`) with optimization reasoning
+2. **Opal** (Wallet Selection)
+   - Provides wallet methods and selection logic
+   - Consumer payment instrument optimization
 
-3. **Weave** (Audit & Receipt Engine)
-   - Subscribes to CloudEvents from Orca and Orion
+3. **Olive** (Loyalty Incentives)
+   - Applies loyalty incentives and merchant policies
+   - Policy DSL with YAML/JSON configuration
+
+4. **Okra** (BNPL Credit Scoring)
+   - Generates BNPL quotes and credit scoring
+   - Risk assessment and approval logic
+
+5. **Onyx** (Trust & KYB Verification)
+   - Know Your Business (KYB) verification
+   - Trust signal generation and risk assessment
+
+6. **Weave** (Audit & Receipt Engine)
+   - Subscribes to CloudEvents from all agents
    - Stores hash receipts with trace ID correlation
    - Provides audit trails and receipt logging
+
+### Phase 3 — Negotiation & Live Fee Bidding (Steps 7-9)
+7. **🔄 Orca vs Opal Negotiation**
+   - Side-by-side rail evaluation and consumer instrument scoring
+   - LLM-powered explanations for both merchant and consumer perspectives
+   - Real-time negotiation comparison with detailed scoring tables
+
+8. **🌊 Weave Processor Auction**
+   - Live fee bidding between Carat, Adyen, and Stripe processors
+   - Deterministic auction results with effective cost calculation
+   - Processor comparison with settlement times and confidence scores
+
+9. **🎯 Final Settlement Path**
+   - Policy adjustments from Olive (merchant preferences)
+   - Trust adjustments from Onyx (risk factors)
+   - Final optimized settlement path with inline deltas
 
 ## 🚀 60-Second Quickstart
 
@@ -31,9 +70,11 @@ This demo demonstrates the complete AI explainability pipeline:
 git clone https://github.com/ahsanazmi1/ocn-demo.git
 cd ocn-demo
 
-# 2. Configure environment
-cp .env.example .env
-# Edit .env to add OPENAI_API_KEY if you want live LLM explanations
+# 2. Configure environment (optional - works without LLM keys)
+# Create .env file with Azure OpenAI keys for enhanced LLM explanations:
+# AZURE_OPENAI_API_KEY=your-key-here
+# AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
+# AZURE_OPENAI_DEPLOYMENT_NAME=your-deployment-name
 
 # 3. Initialize submodules and start services
 make submodules
@@ -41,17 +82,76 @@ make pin
 make up
 
 # 4. Wait for services to start, then run demo
-sleep 5
+sleep 10
 make smoke
 
-# 5. View CloudEvents in Weave logs
-make logs
+# 5. View the enhanced UI with Phase 3 features
+open http://localhost:3000
+
+# 6. Run Phase 3 replay script for deterministic results
+./scripts/replay_phase3.sh
 ```
 
 ## 📋 Prerequisites
 
 - **Docker & Docker Compose**: For containerized services
 - **Git**: For submodule management
+- **Azure OpenAI Account** (optional): For enhanced LLM explanations in Phase 3
+
+## 🔧 Phase 3 Environment Configuration
+
+### Required Environment Variables (Optional)
+
+Create a `.env` file in the project root with the following variables for enhanced LLM explanations:
+
+```bash
+# Azure OpenAI Configuration (for LLM explanations in Phase 3)
+AZURE_OPENAI_API_KEY=your-azure-openai-api-key-here
+AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
+AZURE_OPENAI_DEPLOYMENT_NAME=your-deployment-name
+AZURE_OPENAI_API_VERSION=2024-02-15-preview
+
+# Agent-specific deployment names (optional overrides)
+# ORCA_OPENAI_DEPLOYMENT_NAME=orca-llm
+# OPAL_OPENAI_DEPLOYMENT_NAME=opal-llm
+# WEAVE_OPENAI_DEPLOYMENT_NAME=weave-llm
+
+# Phase 3 Configuration
+DETERMINISTIC_SEED=42
+```
+
+### Phase 3 Features
+
+- **🔄 Negotiation Comparison**: Side-by-side display of Orca rail evaluation vs Opal consumer instrument scoring
+- **🌊 Processor Auction**: Live bidding between Carat, Adyen, and Stripe with deterministic results
+- **🎯 Settlement Path**: Final optimized path with policy and trust adjustments
+- **📡 CloudEvents**: Emits 6 new event types for comprehensive audit trails
+- **🤖 LLM Explanations**: Optional AI-powered explanations for all negotiation decisions
+
+### Phase 3 CloudEvents
+
+The demo emits the following new CloudEvent types:
+- `ocn.weave.bid_request.v1` - Processor bid requests
+- `ocn.weave.bid_response.v1` - Processor bid responses  
+- `ocn.opal.explanation.v1` - Consumer instrument explanations
+- `ocn.olive.policy_applied.v1` - Policy application events
+- `ocn.onyx.trust_signal.v1` - Trust signal events
+- `ocn.orca.explanation.v1` - Rail selection explanations
+
+### Phase 3 Replay Script
+
+Run the deterministic replay script for consistent results:
+
+```bash
+# Run Phase 3 steps with deterministic seed
+./scripts/replay_phase3.sh
+
+# Customize the replay
+DETERMINISTIC_SEED=123 ./scripts/replay_phase3.sh
+```
+
+## 📋 Additional Prerequisites
+
 - **Make**: For convenient commands
 - **curl**: For API testing (usually pre-installed)
 - **jq**: For JSON parsing (optional, but recommended)
@@ -429,6 +529,16 @@ graph TD
 ```bash
 make demo1-down
 ```
+
+## Phase 3 — Negotiation & Live Fee Bidding
+
+Demo Steps 4–6 in the UI timeline.
+
+### Phase 3 — Negotiation & Live Fee Bidding
+- [ ] Step 4: Orca vs Opal negotiation (both explanations visible)
+- [ ] Step 5: Weave orchestrates processor bidding (timeline shows bids)
+- [ ] Step 6: Agents settle cost vs rewards vs loyalty
+- [ ] UI timeline renders negotiation + bidding events
 
 ---
 

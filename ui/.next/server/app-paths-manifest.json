@@ -1,0 +1,5 @@
+{
+  "/demos/agent-interaction/page": "app/demos/agent-interaction/page.js",
+  "/test-agents/page": "app/test-agents/page.js",
+  "/page": "app/page.js"
+}

@@ -1,0 +1,31 @@
+# OCN Plugin Adapters Requirements
+
+# HTTP requests
+requests>=2.31.0
+
+# JSON handling (built-in, but listed for clarity)
+# json
+
+# Logging (built-in, but listed for clarity)
+# logging
+
+# Threading (built-in, but listed for clarity)
+# threading
+
+# HTTP server (built-in, but listed for clarity)
+# http.server
+
+# Type hints
+typing-extensions>=4.0.0
+
+# Optional: For enhanced JSON handling
+# ujson>=5.0.0
+
+# Optional: For async support (future enhancement)
+# aiohttp>=3.8.0
+# asyncio
+
+# Optional: For configuration management
+# pydantic>=2.0.0
+# python-dotenv>=1.0.0
+
