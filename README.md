@@ -1,72 +1,24 @@
-# OCN AI Explainability Demo + Phase 4
+# OCN AI Explainability Demo
 
 [![CI Smoke Tests](https://github.com/ahsanazmi1/ocn-demo/workflows/OCN%20Demo%20Smoke%20Tests/badge.svg)](https://github.com/ahsanazmi1/ocn-demo/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Phase 4 — Payment Instruction & Visibility
+A comprehensive demonstration of AI-powered explainability and payment orchestration across the Open Checkout Network (OCN), showcasing deterministic decision engines, CloudEvents integration, transparent reasoning, ML-powered agents, and comprehensive payment tracking capabilities.
 
-🚧 **Currently in development** - Phase 4 focuses on payment instruction generation, settlement visibility, and comprehensive payment tracking across OCN agents.
+## 🎯 Overview
 
-- **Status**: Active development on `phase-4-instruction` branch
-- **Features**: Payment instruction schemas, settlement visibility, payment tracking, instruction validation
-- **Issue Tracker**: [Phase 4 Issues](https://github.com/ahsanazmi1/ocn-demo/issues?q=is%3Aopen+is%3Aissue+label%3Aphase-4)
-- **Timeline**: Weeks 12-16 of OCN development roadmap
+This repository contains multiple demo implementations showcasing the complete OCN payment ecosystem:
 
-See [CHANGELOG.md](CHANGELOG.md) for detailed Phase 4 progress and features.
+- **8 OCN Agents**: Complete fintech orchestration across checkout, credit, wallet, loyalty, trust, payout, treasury, and audit
+- **Multiple Demo Modes**: Next.js UI, Streamlit, Gateway API, and plugin adapters
+- **Phase 3 & 4 Features**: Negotiation, live fee bidding, payment instructions, and settlement visibility
+- **ML-Powered Decisions**: Real-time agent decision making with explainability
+- **E-Commerce Integration**: WooCommerce, Shopify, and BigCommerce plugin adapters
 
-A comprehensive demonstration of AI-powered explainability and **Phase 4 — Payment Instruction & Visibility** across the Open Checkout Network (OCN), showcasing deterministic decision engines, CloudEvents integration, transparent reasoning, and comprehensive payment tracking capabilities.
-
-## 🎯 What This Demo Shows
-
-This demo demonstrates the complete AI explainability pipeline plus **Phase 3 — Negotiation & Live Fee Bidding**:
-
-### Core Agents (Steps 1-6)
-1. **Orca** (Checkout Decision Engine)
-   - Makes deterministic checkout decisions (approve/decline/review)
-   - Generates AI-powered explanations with reasoning, signals, and confidence
-   - Emits CloudEvents (`ocn.orca.explanation.v1`) with trace IDs
-
-2. **Opal** (Wallet Selection)
-   - Provides wallet methods and selection logic
-   - Consumer payment instrument optimization
-
-3. **Olive** (Loyalty Incentives)
-   - Applies loyalty incentives and merchant policies
-   - Policy DSL with YAML/JSON configuration
-
-4. **Okra** (BNPL Credit Scoring)
-   - Generates BNPL quotes and credit scoring
-   - Risk assessment and approval logic
-
-5. **Onyx** (Trust & KYB Verification)
-   - Know Your Business (KYB) verification
-   - Trust signal generation and risk assessment
-
-6. **Weave** (Audit & Receipt Engine)
-   - Subscribes to CloudEvents from all agents
-   - Stores hash receipts with trace ID correlation
-   - Provides audit trails and receipt logging
-
-### Phase 3 — Negotiation & Live Fee Bidding (Steps 7-9)
-7. **🔄 Orca vs Opal Negotiation**
-   - Side-by-side rail evaluation and consumer instrument scoring
-   - LLM-powered explanations for both merchant and consumer perspectives
-   - Real-time negotiation comparison with detailed scoring tables
-
-8. **🌊 Weave Processor Auction**
-   - Live fee bidding between Carat, Adyen, and Stripe processors
-   - Deterministic auction results with effective cost calculation
-   - Processor comparison with settlement times and confidence scores
-
-9. **🎯 Final Settlement Path**
-   - Policy adjustments from Olive (merchant preferences)
-   - Trust adjustments from Onyx (risk factors)
-   - Final optimized settlement path with inline deltas
-
-## 🚀 60-Second Quickstart
+## 🚀 Quick Start
 
 ```bash
-# 1. Clone and setup
+# 1. Clone the repository
 git clone https://github.com/ahsanazmi1/ocn-demo.git
 cd ocn-demo
 
@@ -85,27 +37,269 @@ make up
 sleep 10
 make smoke
 
-# 5. View the enhanced UI with Phase 3 features
+# 5. Access the demo UI
 open http://localhost:3000
-
-# 6. Run Phase 3 replay script for deterministic results
-./scripts/replay_phase3.sh
 ```
 
 ## 📋 Prerequisites
 
 - **Docker & Docker Compose**: For containerized services
 - **Git**: For submodule management
-- **Azure OpenAI Account** (optional): For enhanced LLM explanations in Phase 3
+- **Make**: For convenient commands (optional but recommended)
+- **Azure OpenAI Account** (optional): For enhanced LLM explanations
 
-## 🔧 Phase 3 Environment Configuration
+## 🤖 OCN Agents
 
-### Required Environment Variables (Optional)
+The demo showcases 8 specialized agents working together:
 
-Create a `.env` file in the project root with the following variables for enhanced LLM explanations:
+| Agent | Port | Purpose | Key Features |
+|-------|------|---------|--------------|
+| 🦈 **Orca** | 8080 | Checkout Decision Engine | Risk assessment, rail selection, LLM explanations |
+| 🚀 **Orion** | 8081 | Payout Optimization | Rail optimization, cost/speed analysis |
+| 🌊 **Weave** | 8082 | Audit & Receipt Engine | CloudEvents storage, processor auctions, audit trails |
+| 🦏 **Okra** | 8083 | BNPL & Credit Scoring | Credit quotes, risk scoring, BNPL underwriting |
+| 💎 **Opal** | 8084 | Wallet Selection | Consumer payment optimization, instrument scoring |
+| 🏛️ **Oasis** | 8085 | Treasury Planning | Liquidity forecasting, cash flow management |
+| 🖤 **Onyx** | 8086 | KYB & Trust Verification | Trust signals, KYB verification, risk assessment |
+| 🫒 **Olive** | 8087 | Loyalty Incentives | Policy application, reward optimization |
+
+## 🎬 Available Demos
+
+### 1. Next.js Web UI (Recommended)
+
+**Features:**
+- Multiple demo modes (ShirtCo 8-agent, Oxfords 6-agent, Agent Interaction)
+- Real-time agent status and CloudEvents timeline
+- Phase 4 dashboards (Consumer, Merchant, Processor)
+- Interactive agent explanations with verbosity levels
+- JSON inspectors and audit trails
+
+**Quick Start:**
+```bash
+# Full 8-agent ShirtCo demo
+make demo-shirtco
+open http://localhost:3000
+
+# 6-agent Oxfords demo
+make demo-oxfords
+open http://localhost:3000
+```
+
+**Available Tabs:**
+- **Main Demo**: Run ShirtCo or Oxfords checkout flows
+- **Agent Interaction Demo**: Interactive chat-style agent explanations
+- **Phase 4 Flow**: Payment instruction and settlement visibility
+- **Consumer Dashboard**: Rewards, savings, payment insights
+- **Merchant Dashboard**: Processor bids, route analysis, fee optimization
+- **Processor Dashboard**: Bid history, authorization results, monitoring
+
+### 2. Streamlit ML-Powered Demo
+
+**Features:**
+- Step-by-step payment flow (6 steps)
+- ML model performance visualization
+- Real-time agent decision transparency
+- Cross-agent ML insights
+- Audit trail and transparency reporting
+
+**Quick Start:**
+```bash
+# Install dependencies
+pip install -r requirements_streamlit.txt
+
+# Run Streamlit demo
+streamlit run streamlit_demo.py --server.port 8501
+
+# Or use the helper script
+./run_streamlit_demo.sh
+```
+
+**Access:** http://localhost:8501
+
+**Demo Steps:**
+1. **Cart Creation**: AI assistant creates shopping cart
+2. **Pre-Auth Checks**: Okra (credit) + Onyx (trust) risk assessment
+3. **Negotiation**: Opal (consumer) vs Orca (merchant) + Olive (loyalty)
+4. **Fee Competition**: Weave processor auction
+5. **Finalization**: Orca payment mandate creation
+6. **Auth & Post-Auth**: Processor authorization and audit trail
+
+### 3. Gateway API Demo
+
+**Features:**
+- RESTful API orchestration
+- Direct agent endpoint integration
+- Phase 3 & 4 negotiation flows
+- Deterministic transaction processing
+
+**Quick Start:**
+```bash
+# Start all services
+make up
+
+# Gateway runs on port 8090
+curl http://localhost:8090/health
+curl http://localhost:8090/docs  # API documentation
+```
+
+### 4. Plugin Adapters (E-Commerce Integration)
+
+**Supported Platforms:**
+- WooCommerce
+- Shopify
+- BigCommerce
+
+**Features:**
+- Platform-specific cart transformation
+- Orca MCP integration
+- Webhook result publishing
+- Real-time rail evaluation
+
+**Quick Start:**
+```bash
+cd plugins
+pip install -r requirements.txt
+
+# Start webhook simulator
+python simulate_webhook.py
+
+# Run demo (in another terminal)
+python demo.py
+```
+
+See [plugins/README.md](plugins/README.md) for detailed documentation.
+
+### 5. Command-Line Smoke Test
+
+**Features:**
+- Automated agent testing
+- CloudEvents verification
+- Deterministic output validation
+
+**Quick Start:**
+```bash
+make smoke
+```
+
+## 🏗️ Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     Demo Interfaces                          │
+├──────────────┬──────────────┬──────────────┬───────────────┤
+│  Next.js UI  │  Streamlit   │ Gateway API  │   Plugins     │
+│   Port 3000  │  Port 8501   │  Port 8090   │  Port 9000    │
+└──────┬───────┴──────┬───────┴──────┬───────┴───────┬───────┘
+       │              │               │               │
+       └──────────────┴───────────────┴───────────────┘
+                           │
+                    ┌──────▼──────┐
+                    │   Gateway   │
+                    │  Port 8090  │
+                    └──────┬──────┘
+                           │
+        ┌──────────────────┼──────────────────┐
+        │                  │                  │
+┌───────▼──────┐  ┌───────▼──────┐  ┌───────▼──────┐
+│    Orca      │  │     Opal     │  │     Okra     │
+│   Port 8080  │  │   Port 8084  │  │   Port 8083  │
+└──────┬───────┘  └──────┬───────┘  └──────┬───────┘
+       │                 │                 │
+┌───────▼──────┐  ┌───────▼──────┐  ┌───────▼──────┐
+│    Onyx      │  │    Olive     │  │    Oasis     │
+│   Port 8086  │  │   Port 8087  │  │   Port 8085  │
+└──────┬───────┘  └──────┬───────┘  └──────┬───────┘
+       │                 │                 │
+┌───────▼──────┐  ┌───────▼──────┐  ┌───────▼──────┐
+│    Orion     │  │    Weave     │  │              │
+│   Port 8081  │  │   Port 8082  │  │              │
+└──────────────┘  └──────────────┘  └──────────────┘
+        │                 │
+        │    CloudEvents  │
+        │    trace_id     │
+        │                 │
+        └────────┬────────┘
+                 │
+          ┌──────▼──────┐
+          │    Weave    │
+          │  (Audit)    │
+          └─────────────┘
+```
+
+## 🛠️ Available Commands
 
 ```bash
-# Azure OpenAI Configuration (for LLM explanations in Phase 3)
+make help          # Show all available commands
+make submodules    # Initialize and update git submodules
+make pin           # Pin all submodules to phase-2-explainability branches
+make up            # Start all services with Docker Compose
+make down          # Stop all services and remove volumes
+make logs          # Show logs from all services
+make smoke         # Run the complete demo smoke test
+make demo-shirtco  # Start ShirtCo 8-agent demo
+make demo-down     # Stop ShirtCo demo and cleanup
+make demo-oxfords  # Start Demo 1: Oxfords Checkout (6 agents)
+make demo1-down    # Stop Demo 1 and cleanup
+make clean         # Clean up demo outputs and containers
+make health        # Check service health status
+make health-shirtco # Check all ShirtCo demo services
+make health-oxfords # Check Demo 1 Oxfords services
+```
+
+## 📊 Demo Scenarios
+
+### ShirtCo Demo (8 Agents)
+
+**Scenario:** Mid-market apparel B2B transaction
+- **Merchant**: ShirtCo
+- **Customer**: Acme Dev LLC (Gold loyalty tier)
+- **Order**: 3 shirt types, 60 units, $5,454.00
+- **Vendor**: CottonSupply LLC
+
+**Agent Flow:**
+1. 🦈 Orca: Checkout risk & approval
+2. 🦏 Okra: BNPL net-30 underwriting
+3. 💎 Opal: Corporate Visa selection
+4. 🚀 Orion: ACH payout optimization
+5. 🏛️ Oasis: 14-day liquidity forecast
+6. 🖤 Onyx: Vendor KYB verification
+7. 🫒 Olive: Gold tier 5% discount
+8. 🌊 Weave: Audit trail storage
+
+### Oxfords Demo (6 Agents)
+
+**Scenario:** Streamlined checkout flow
+- **Merchant**: Example LLC (B2B apparel)
+- **Customer**: Corporate buyer
+- **Order**: Oxfords (Brown 10D) + Blazer (Navy 40R) = $700.00
+
+**Agent Flow:**
+1. 🦈 Orca: Checkout decision & explanation
+2. 💎 Opal: Corporate Visa selection
+3. 🫒 Olive: Gold tier 5% rebate
+4. 🦏 Okra: 30-day BNPL quote
+5. 🖤 Onyx: Vendor KYB verification
+6. 🌊 Weave: Receipt logging
+
+### Agent Interaction Demo
+
+**Features:**
+- Interactive chat-style agent explanations
+- BNPL vs Credit choice flow
+- Verbosity levels (Brief/Standard/Forensics)
+- Real-time agent decision visualization
+- Evidence viewer with masked JSON
+
+**Access:** http://localhost:3000 → "Agent Interaction Demo" tab
+
+## 🔧 Configuration
+
+### Environment Variables
+
+Create a `.env` file in the project root:
+
+```bash
+# Azure OpenAI Configuration (optional, for LLM explanations)
 AZURE_OPENAI_API_KEY=your-azure-openai-api-key-here
 AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
 AZURE_OPENAI_DEPLOYMENT_NAME=your-deployment-name
@@ -118,85 +312,34 @@ AZURE_OPENAI_API_VERSION=2024-02-15-preview
 
 # Phase 3 Configuration
 DETERMINISTIC_SEED=42
+
+# Logging
+LOG_LEVEL=info
 ```
 
-### Phase 3 Features
+### Phase 3 & 4 Features
 
-- **🔄 Negotiation Comparison**: Side-by-side display of Orca rail evaluation vs Opal consumer instrument scoring
-- **🌊 Processor Auction**: Live bidding between Carat, Adyen, and Stripe with deterministic results
-- **🎯 Settlement Path**: Final optimized path with policy and trust adjustments
-- **📡 CloudEvents**: Emits 6 new event types for comprehensive audit trails
-- **🤖 LLM Explanations**: Optional AI-powered explanations for all negotiation decisions
+**Phase 3 — Negotiation & Live Fee Bidding:**
+- 🔄 Orca vs Opal negotiation comparison
+- 🌊 Weave processor auction (Carat, Adyen, Stripe)
+- 🎯 Final settlement path optimization
+- 📡 CloudEvents for comprehensive audit trails
+- 🤖 LLM-powered explanations
 
-### Phase 3 CloudEvents
+**Phase 4 — Payment Instruction & Visibility:**
+- Payment instruction schemas
+- Settlement visibility
+- Payment tracking
+- Instruction validation
 
-The demo emits the following new CloudEvent types:
-- `ocn.weave.bid_request.v1` - Processor bid requests
-- `ocn.weave.bid_response.v1` - Processor bid responses  
+**CloudEvents Emitted:**
+- `ocn.orca.explanation.v1` - Rail selection explanations
 - `ocn.opal.explanation.v1` - Consumer instrument explanations
+- `ocn.weave.bid_request.v1` - Processor bid requests
+- `ocn.weave.bid_response.v1` - Processor bid responses
 - `ocn.olive.policy_applied.v1` - Policy application events
 - `ocn.onyx.trust_signal.v1` - Trust signal events
-- `ocn.orca.explanation.v1` - Rail selection explanations
-
-### Phase 3 Replay Script
-
-Run the deterministic replay script for consistent results:
-
-```bash
-# Run Phase 3 steps with deterministic seed
-./scripts/replay_phase3.sh
-
-# Customize the replay
-DETERMINISTIC_SEED=123 ./scripts/replay_phase3.sh
-```
-
-## 📋 Additional Prerequisites
-
-- **Make**: For convenient commands
-- **curl**: For API testing (usually pre-installed)
-- **jq**: For JSON parsing (optional, but recommended)
-
-### Optional: OpenAI API Key
-- Add your `OPENAI_API_KEY` to `.env` for live AI explanations
-- Without it, Orca uses deterministic explanation stubs
-- The demo works perfectly without an API key
-
-## 🏗️ Architecture
-
-```
-┌─────────────┐    CloudEvents     ┌─────────────┐
-│    Orca     │ ──────────────────→ │    Weave    │
-│ (Checkout)  │    trace_id        │ (Audit)     │
-│ Port: 8080  │                     │ Port: 8082  │
-└─────────────┘                     └─────────────┘
-       ↑                                     ↑
-       │                                     │
-       │    CloudEvents                     │
-       │    trace_id                        │
-       │                                     │
-┌─────────────┐                     ┌─────────────┐
-│    Orion    │ ──────────────────→ │             │
-│ (Payout)    │                     │             │
-│ Port: 8081  │                     │             │
-└─────────────┘                     └─────────────┘
-```
-
-## 🛠️ Available Commands
-
-```bash
-make help          # Show all available commands
-make submodules    # Initialize and update git submodules
-make pin           # Pin all submodules to v0.2.0 tags
-make up            # Start all services with Docker Compose
-make down          # Stop all services and remove volumes
-make logs          # Show logs from all services
-make smoke         # Run the complete demo smoke test
-make demo-shirtco  # Start ShirtCo 8-agent demo (NEW!)
-make demo-down     # Stop ShirtCo demo and cleanup
-make clean         # Clean up demo outputs and containers
-make health        # Check service health status
-make health:shirtco # Check all ShirtCo demo services
-```
+- `ocn.onyx.kyb_verified.v1` - KYB verification events
 
 ## 📊 What You'll See
 
@@ -240,26 +383,20 @@ make health:shirtco # Check all ShirtCo demo services
 
 ## 🔍 Sample Data
 
-### Checkout Sample (`samples/ap2/checkout_small.json`)
-- **Amount**: $125.50
-- **MCC**: 5411 (Grocery stores)
-- **Channel**: ecommerce
-- **Risk Tier**: medium
-- **Non-PII**: Safe for demos
+### Checkout Samples
+- `samples/ap2/checkout_small.json` - $125.50 grocery transaction
+- `samples/demo1_oxfords/` - Oxfords + Blazer checkout ($700)
+- `samples/shirt_demo/` - ShirtCo B2B transaction ($5,454)
+- `samples/vendor/payout_basic.json` - $2,500 vendor payout
 
-### Payout Sample (`samples/vendor/payout_basic.json`)
-- **Amount**: $2,500.00
-- **Vendor**: Demo Vendor Corp
-- **Urgency**: standard
-- **Preferred Rails**: ACH, Wire, RTP
-- **Cost Limit**: $25.00
+All samples use synthetic, non-PII data safe for demos.
 
 ## 🐛 Troubleshooting
 
 ### Port Conflicts
 ```bash
-# Check what's using ports 8080, 8081, 8082
-lsof -i :8080 -i :8081 -i :8082
+# Check what's using ports 8080-8090, 3000, 8501, 9000
+lsof -i :8080 -i :8081 -i :8082 -i :3000 -i :8501 -i :9000
 
 # Stop conflicting services or change ports in docker-compose.yml
 ```
@@ -267,8 +404,8 @@ lsof -i :8080 -i :8081 -i :8082
 ### Missing API Key
 ```bash
 # Demo works without OpenAI API key
-# Orca will use deterministic explanation stubs
-echo "OPENAI_API_KEY=" > .env
+# Agents will use deterministic explanation stubs
+echo "AZURE_OPENAI_API_KEY=" > .env
 ```
 
 ### Submodule Issues
@@ -284,6 +421,8 @@ make pin
 ```bash
 # Check service health
 make health
+make health-shirtco
+make health-oxfords
 
 # View detailed logs
 make logs
@@ -307,7 +446,7 @@ make up
 ## 🔧 Development
 
 ### Adding New Samples
-1. Create JSON files in `samples/ap2/` or `samples/vendor/`
+1. Create JSON files in `samples/` directory
 2. Ensure they contain required fields (`amount`, `trace_id`, etc.)
 3. Test with `make smoke`
 
@@ -320,13 +459,28 @@ make up
 1. Edit `scripts/smoke_demo.sh` for different API calls
 2. Modify sample JSON files for different scenarios
 3. Update environment variables in `.env`
+4. Customize UI components in `ui/` directory
+5. Modify Streamlit flow in `streamlit_demo.py`
 
 ## 📚 Related Documentation
 
+### Repository Documentation
 - [SUBMODULES.md](SUBMODULES.md) - Git submodule management guide
+- [README_STREAMLIT_DEMO.md](README_STREAMLIT_DEMO.md) - Streamlit demo details
+- [plugins/README.md](plugins/README.md) - E-commerce plugin adapters
+- [ui/README.md](ui/README.md) - Next.js UI documentation
+
+### Agent Repositories
 - [Orca Repository](https://github.com/ahsanazmi1/orca) - Checkout decision engine
 - [Orion Repository](https://github.com/ahsanazmi1/orion) - Payout optimization engine
 - [Weave Repository](https://github.com/ahsanazmi1/weave) - Audit and receipt engine
+- [Okra Repository](https://github.com/ahsanazmi1/okra) - BNPL & credit scoring
+- [Opal Repository](https://github.com/ahsanazmi1/opal) - Wallet selection
+- [Olive Repository](https://github.com/ahsanazmi1/olive) - Loyalty incentives
+- [Onyx Repository](https://github.com/ahsanazmi1/onyx) - KYB & trust verification
+- [Oasis Repository](https://github.com/ahsanazmi1/oasis) - Treasury planning
+
+### External Resources
 - [OCN Common](https://github.com/ahsanazmi1/ocn-common) - Shared schemas and utilities
 
 ## 🤝 Contributing
@@ -334,7 +488,7 @@ make up
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Test with `make smoke`
+4. Test with `make smoke` or relevant demo command
 5. Submit a pull request
 
 ## 📄 License
@@ -347,199 +501,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Discussions**: [GitHub Discussions](https://github.com/ahsanazmi1/ocn-demo/discussions)
 - **Documentation**: [Project Wiki](https://github.com/ahsanazmi1/ocn-demo/wiki)
 
-## 👔 ShirtCo: Mid-Market Apparel (All 8 Agents)
-
-The ShirtCo demo showcases a complete B2B transaction flow across all 8 OCN agents, demonstrating enterprise-grade fintech orchestration with deterministic outputs and comprehensive audit trails.
-
-### 🏪 Scenario Overview
-
-**Merchant**: ShirtCo (mid-market apparel retailer)
-**Customer**: Acme Dev LLC (B2B, Gold loyalty tier)
-**Order**: 3 shirt types, 60 total units, $5,454.00
-**Vendor**: CottonSupply LLC (fabric supplier)
-
-### 🚀 Quick Start
-
-```bash
-# 1. Setup (same as original demo)
-cp .env.example .env
-make submodules
-make pin
-
-# 2. Launch ShirtCo demo
-make demo-shirtco
-
-# 3. Open browser to http://localhost:3000
-# 4. Click "Run ShirtCo Demo"
-```
-
-### 📋 Agent Flow & Endpoints
-
-| Step | Agent | Endpoint | Purpose | CE Emitted |
-|------|-------|----------|---------|------------|
-| 1 | 🦈 Orca | `/decision` | Checkout risk & approval | `ocn.orca.explanation.v1` |
-| 2 | 🦏 Okra | `/bnpl/quote` | BNPL net-30 underwriting | - |
-| 3 | 💎 Opal | `/wallet/select` | Corp Visa selection | - |
-| 4 | 🚀 Orion | `/optimize` | ACH payout optimization | `ocn.orion.explanation.v1` |
-| 5 | 🏛️ Oasis | `/treasury/plan` | 14-day liquidity forecast | - |
-| 6 | 🖤 Onyx | `/kyb/verify` | CottonSupply LLC verification | `ocn.onyx.kyb_verified.v1` |
-| 7 | 🫒 Olive | `/incentives/apply` | Gold tier 5% discount | `ocn.olive.incentive_applied.v1` |
-| 8 | 🌊 Weave | `/receipts/{trace_id}` | Audit trail storage | - |
-
-### 🎯 Key Features
-
-- **Single Trace ID**: End-to-end correlation across all agents
-- **Deterministic Outputs**: Fixed seeds ensure consistent results
-- **Real-time UI**: Live status updates and CloudEvents timeline
-- **JSON Inspector**: Collapsible response details for each agent
-- **Rail Optimization**: ACH selected for cost/speed balance
-- **Loyalty Integration**: Automatic Gold tier discount application
-- **Audit Compliance**: Hash-only receipts (no PII stored)
-
-### 🌐 Demo UI Components
-
-1. **Order Summary**: Line items, totals, customer info
-2. **Agent Status Grid**: 2×4 grid showing health and results
-3. **CloudEvents Timeline**: Real-time event tracking with trace ID
-4. **JSON Inspectors**: Expandable response data for debugging
-5. **System Health**: Port monitoring and service status
-
-### 📊 Sample Transaction Flow
-
-```mermaid
-graph TD
-    A[ShirtCo Cart: $5,454] --> B[🦈 Orca: APPROVE]
-    B --> C[🦏 Okra: BNPL 30-day]
-    C --> D[💎 Opal: Corp Visa]
-    D --> E[🚀 Orion: ACH Payout]
-    E --> F[🏛️ Oasis: +$5K Liquidity]
-    F --> G[🖤 Onyx: KYB Verified]
-    G --> H[🫒 Olive: 5% Gold Discount]
-    H --> I[🌊 Weave: Receipts Stored]
-```
-
-### 🔧 Architecture
-
-```
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│ ShirtCo UI  │◄──►│   Gateway   │◄──►│   Agents    │
-│ Port: 3000  │    │ Port: 8090  │    │ 8080-8087   │
-└─────────────┘    └─────────────┘    └─────────────┘
-                           │
-                           ▼
-                   ┌─────────────┐
-                   │   Weave     │
-                   │ Port: 8082  │
-                   │ (Audit)     │
-                   └─────────────┘
-```
-
-### 🛑 Stopping the Demo
-
-```bash
-make demo-down
-```
-
 ---
 
-## 🎯 Demo 1 — Oxfords Checkout (Phases 0–2)
+**Ready to see AI explainability in action?** 
 
-The Oxfords Checkout demo showcases a streamlined 6-agent flow demonstrating core OCN functionality with deterministic outputs and comprehensive audit trails.
+- Run `make demo-shirtco` for the full 8-agent experience
+- Run `make demo-oxfords` for the streamlined 6-agent flow
+- Run `streamlit run streamlit_demo.py` for the ML-powered step-by-step demo
+- Check out the plugin adapters for e-commerce integration
 
-### 🏪 Scenario Overview
-
-**Merchant**: Example LLC (B2B apparel)
-**Customer**: Corporate buyer
-**Order**: Oxfords (Brown 10D) + Blazer (Navy 40R) = $700.00
-**Payment**: Card channel, MCC 5651 (Apparel)
-
-### 🚀 Quick Start
-
-```bash
-# 1. Setup (same as other demos)
-cp .env.example .env
-make submodules
-make pin
-
-# 2. Launch Demo 1
-make demo-oxfords
-
-# 3. Open http://localhost:3000 → click "Run Demo 1"
-```
-
-### 📋 Agent Flow
-
-| Step | Agent | Endpoint | Purpose | CE Emitted |
-|------|-------|----------|---------|------------|
-| 1 | 🦈 Orca | `/decide` | Checkout decision | - |
-| 2 | 🦈 Orca | `/explain?emit_ce=true` | Explanation with CE | `ocn.orca.explanation.v1` |
-| 3 | 💎 Opal | `/wallet/methods` → `/wallet/select` | Corp Visa selection | - |
-| 4 | 🫒 Olive | `/incentives/apply` | Gold tier 5% rebate | - |
-| 5 | 🦏 Okra | `/bnpl/quote` | 30-day BNPL quote | - |
-| 6 | 🖤 Onyx | `/kyb/verify?emit_ce=true` | Vendor verification | `ocn.onyx.kyb_verified.v1` |
-
-### 🎯 Key Features
-
-- **Single Trace ID**: End-to-end correlation across all 6 agents
-- **Deterministic Outputs**: Fixed samples ensure consistent results
-- **CloudEvents Integration**: Orca explanations and Onyx KYB verification
-- **Real-time UI**: Live agent status and event timeline
-- **JSON Inspectors**: Collapsible response details for debugging
-- **No PII**: All samples use synthetic data
-
-### 🌐 Demo UI Components
-
-1. **Order Summary**: Line items, totals, customer info
-2. **Agent Status Grid**: 2×3 grid showing health and results
-3. **Event Timeline**: Real-time tracking with trace ID
-4. **JSON Inspectors**: Expandable response data
-5. **System Health**: Port monitoring and service status
-
-### 📊 Sample Transaction Flow
-
-```mermaid
-graph TD
-    A[Oxfords + Blazer: $700] --> B[🦈 Orca: APPROVE]
-    B --> C[🦈 Orca: Explanation CE]
-    C --> D[💎 Opal: Corp Visa]
-    D --> E[🫒 Olive: 5% Gold Rebate]
-    E --> F[🦏 Okra: BNPL 30-day]
-    F --> G[🖤 Onyx: KYB CE]
-    G --> H[🌊 Weave: Receipts Logged]
-```
-
-### 🔧 Architecture
-
-```
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│ Demo 1 UI   │◄──►│   Gateway   │◄──►│   Agents    │
-│ Port: 3000  │    │ Port: 8090  │    │ 8080-8087   │
-└─────────────┘    └─────────────┘    └─────────────┘
-                           │
-                           ▼
-                   ┌─────────────┐
-                   │   Weave     │
-                   │ Port: 8082  │
-                   │ (Audit)     │
-                   └─────────────┘
-```
-
-### 🛑 Stopping the Demo
-
-```bash
-make demo1-down
-```
-
-## Phase 3 — Negotiation & Live Fee Bidding
-
-Demo Steps 4–6 in the UI timeline.
-
-### Phase 3 — Negotiation & Live Fee Bidding
-- [ ] Step 4: Orca vs Opal negotiation (both explanations visible)
-- [ ] Step 5: Weave orchestrates processor bidding (timeline shows bids)
-- [ ] Step 6: Agents settle cost vs rewards vs loyalty
-- [ ] UI timeline renders negotiation + bidding events
-
----
-
-**Ready to see AI explainability in action?** Run `make smoke` for the original demo, `make demo-shirtco` for the full 8-agent experience, or `make demo-oxfords` for the streamlined 6-agent flow! ✨
+✨
